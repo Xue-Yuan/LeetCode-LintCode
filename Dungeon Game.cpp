@@ -32,7 +32,9 @@
 	Notes:
 
 	The knight's health has no upper bound.
-	Any room can contain threats or power-ups, even the first room the knight enters and the bottom-right room where the princess is imprisoned.
+	Any room can contain threats or power-ups, even the first room the 
+		knight enters and the bottom-right room where the princess 
+		is imprisoned.
 */
 
 class Solution
@@ -69,7 +71,7 @@ public:
     }
 };
 
-//If we don't want to change to original dungeon matrix
+//If we don't want to change the original dungeon matrix
 class Solution2
 {
 public:
