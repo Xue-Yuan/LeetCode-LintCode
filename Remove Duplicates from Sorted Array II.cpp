@@ -26,10 +26,6 @@ public:
             if(cnt < 3)
                 nums[cur++] = nums[i];
         }
-        
-        for(auto &e : nums)
-            cout << e << ' ';
-        cout << endl;
         return cur;
     }
 };

@@ -25,14 +25,16 @@
 		knight must be at least 7 if he follows the optimal path 
 		RIGHT-> RIGHT -> DOWN -> DOWN.
 
-	-2 (K)	-3		3
+	-2(K)		-3		3
 	-5		-10		1
-	10		30		-5 (P)
+	10		30		-5(P)
 
 	Notes:
 
 	The knight's health has no upper bound.
-	Any room can contain threats or power-ups, even the first room the knight enters and the bottom-right room where the princess is imprisoned.
+	Any room can contain threats or power-ups, even the first room the 
+		knight enters and the bottom-right room where the princess 
+		is imprisoned.
 */
 
 class Solution
@@ -69,7 +71,7 @@ public:
     }
 };
 
-//If we don't want to change to original dungeon matrix
+//If we don't want to change the original dungeon matrix
 class Solution2
 {
 public:
