@@ -25,9 +25,9 @@
 		knight must be at least 7 if he follows the optimal path 
 		RIGHT-> RIGHT -> DOWN -> DOWN.
 
-	-2 (K)	-3		3
+	-2(K)		-3		3
 	-5		-10		1
-	10		30		-5 (P)
+	10		30		-5(P)
 
 	Notes:
 
