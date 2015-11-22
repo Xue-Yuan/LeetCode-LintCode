@@ -13,7 +13,7 @@
  */
 
 /**************************************/
-/*    MY INITIAL INCORRECT Solution   */
+/*    my initial INCORRECT solution   */
 /**************************************/
 /*
     The reason why it is wrong is because I shouldn't create a
