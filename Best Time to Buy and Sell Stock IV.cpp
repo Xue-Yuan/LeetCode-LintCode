@@ -28,8 +28,6 @@ public:
             return res;
         }
         
-
-        
         vector<vector<int>> states(2, vector<int>(2 * k, INT_MIN));
         for(auto &v : states)
         	for(int i = 0; i < v.size(); ++i)
