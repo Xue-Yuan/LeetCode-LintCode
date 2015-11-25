@@ -30,6 +30,7 @@ public:
         {
             states[next][buy] = max(states[cur][buy], states[cur][sell] + p);
             states[next][sell] = max(states[cur][buy] - p, states[cur][sell]);
+            swap(cur, next);
         }
         return states[cur][buy];
     }
