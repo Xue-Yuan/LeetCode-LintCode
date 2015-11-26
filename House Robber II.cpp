@@ -32,18 +32,18 @@ public:
         {
             state[next][0] = max(state[cur][1], state[cur][0]);
             state[next][1] = max(state[cur][0] + nums[i], state[cur][1]);
-            ma = max(max(state[next][0], state[next][1]), ma);
             swap(next, cur);
         }
+        ma = max(state[next][0], state[next][1]);
         //skip the first one
         state[cur][0] = state[cur][1] = 0;
         for(int i = 1; i < nums.size(); ++i)
         {
             state[next][0] = max(state[cur][1], state[cur][0]);
             state[next][1] = max(state[cur][0] + nums[i], state[cur][1]);
-            ma = max(max(state[next][0], state[next][1]), ma);
             swap(next, cur);
         }
+        ma = max(max(state[next][0], state[next][1]), ma);
         return ma;
     }
 };
