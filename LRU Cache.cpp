@@ -17,7 +17,10 @@
 class LRUCache
 {
 public:
-    LRUCache(int capacity):max_size(capacity) {}
+    LRUCache(int capacity):max_size(capacity) 
+    {
+        cache.reserve(capacity);
+    }
     
     int get(int key) 
     {
@@ -62,6 +65,51 @@ private:
 	unordered_map<unsigned, list<pair<unsigned, int>>::iterator> cache;
 	list<pair<unsigned, int>> lst;		//key-value pair, so when we erase it from the list
 	int max_size;						//	we can also get the key to erase it from the map
+};
+
+class LRUCache_2
+{
+private:
+    unordered_map<unsigned, pair<int, list<unsigned>::iterator>> cache;
+    list<unsigned> priorities;
+    int capacity;
+public:
+    LRUCache(int capacity): capacity(capacity)
+    {
+        cache.reserve(capacity);
+    }
+    
+    int get(int key)
+    {
+        if (cache.find(key) != cache.end())
+        {
+            auto &pir = cache[key];
+            priorities.erase(pir.second);
+            pir.second = priorities.insert(priorities.begin(), key);
+            return pir.first;
+        }
+        return -1;
+    }
+    
+    void set(int key, int value)
+    {
+        if (cache.find(key) != cache.end())
+        {
+            auto itr = cache[key].second;
+            priorities.erase(itr);
+            cache[key] = {value, priorities.insert(priorities.begin(), key)};
+        }
+        else
+        {
+            if (cache.size() == capacity)
+            {
+                auto itr = --priorities.end();
+                cache.erase(*itr);
+                priorities.erase(itr);
+            }
+            cache[key] = {value, priorities.insert(priorities.begin(), key)};
+        }
+    }
 };
 
 

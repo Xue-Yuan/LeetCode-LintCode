@@ -36,6 +36,7 @@
 */
 
 //Try bidirection BFS later.
+
 class Solution
 {
 public:
@@ -48,6 +49,7 @@ public:
         level[cur].insert(start);
         dict.insert(end);
         
+        //BFS finding paths
         while (!level[cur].empty())
         {
             for (auto word : level[cur])
@@ -85,6 +87,7 @@ public:
         return ret;
     }
     
+    //DFS building path
     void buildPath(const string &start, const string &cur, unordered_map<string, vector<string>> &trace, vector<string> &path, vector<vector<string>> &ret)
     {
         if (cur == start)
