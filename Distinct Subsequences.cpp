@@ -13,6 +13,11 @@
 
     Return 3.
 */
+
+/*
+    O(N^2) time and O(N^2) space. We can further optimize it to use
+        O(N) space.
+*/
 class Solution
 {
 public:
@@ -36,7 +41,7 @@ public:
                     dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
             }
         }
-        
+
         return dp[s.size() - 1][t.size() - 1];
     }
 };
