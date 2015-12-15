@@ -27,13 +27,14 @@ struct trieNode
 
 class trie
 {
-//Make root public because later we'll manually do the search
+    //Make root public because later we'll manually do the search
 public:
     trieNode *root;
 private:
     void destory(trieNode *root)
     {
-        if(!root) return;
+        if(!root)
+            return;
         for (trieNode *t : root->next)
             if(t) destory(t);
         delete root;
@@ -56,8 +57,6 @@ public:
 
 class Solution
 {
-private:
-    char visit = '\0';
 public:
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words)
     {
@@ -69,24 +68,23 @@ public:
         
         vector<string> ret;
         string s = "";
+        
         for (int i = 0; i < board.size(); ++i)
-        {
             for (int j = 0; j < board[0].size(); ++j)
-            {
-                
                 find(board, myTrie.root, i, j, s, ret);
-            }
-        }
+        
         return ret;
     }
     
-    //to mannually control the search process is more efficient 
+    //to mannually control the search process is more efficient
     //  than implementing a search method within the trie
     void find(vector<vector<char>>& board, trieNode* t, int r, int c, string &s_sofar, vector<string> &ret)
     {
-        if(!t || r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] == visit) return;
+        if(!t || r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] == '\0')
+            return;
         
-        if(!t->next[board[r][c] - 'a']) return;
+        if(!t->next[board[r][c] - 'a'])
+            return;
         
         t = t->next[board[r][c] - 'a'];
         
@@ -97,7 +95,8 @@ public:
             t->isWord = false;  //avoid duplicates
         }
         
-        swap(visit, board[r][c]);
+        char visit = board[r][c];
+        board[r][c] = '\0';
         
         find(board, t, r + 1, c, s_sofar, ret);
         find(board, t, r - 1, c, s_sofar, ret);
@@ -105,7 +104,6 @@ public:
         find(board, t, r, c - 1, s_sofar, ret);
         
         s_sofar.pop_back();
-        swap(visit, board[r][c]);
-    }
-    
+        board[r][c] = visit;
+    }    
 };
