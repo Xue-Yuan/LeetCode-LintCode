@@ -21,6 +21,11 @@
         No such pair of words.
 */
 
+/*
+    The idea is to compare the strings by bit manipulation, since
+        it's much faster than comparing one character after one 
+        character.
+*/
 class Solution 
 {
 public:
@@ -34,7 +39,7 @@ public:
             for (char &c : words[i])
                 vec[i] |= (1 << (c - 'a'));
         
-        size_t ret = 0;
+        int ret = 0;
         //Since vec.size() is of type size_t, we may come across
         //  problems if the size is of 0 and we use i < vec.size() - 1
         //  as the test condition.(It will run abnormally long time) I 
@@ -45,7 +50,7 @@ public:
             for (int j = i + 1; j < vec.size(); ++j)
             {
                 if ((vec[i] & vec[j]) != 0) continue;
-                size_t tmp = words[i].size() * words[j].size();
+                int tmp = int(words[i].size() * words[j].size());
                 if (tmp < ret) continue;
                 ret = tmp;
             }
