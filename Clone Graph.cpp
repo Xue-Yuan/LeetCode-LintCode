@@ -49,28 +49,33 @@ public:
 /****************************************/
 
 /**         CORRECT SOLUTION           **/
-class Solution2
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {};
+ * };
+ */
+class Solution2 
 {
 public:
-    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node)
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) 
     {
-        unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> map;
-        UndirectedGraphNode *clone = nullptr;
-        cloneGraph(clone, node, map);
-        return clone;
+        unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> m;
+        cloneGraph(node, m);
+        return m[node];
     }
-    void cloneGraph(UndirectedGraphNode *&clone, UndirectedGraphNode *&node, unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> &map)
+    
+    void cloneGraph(UndirectedGraphNode *&node, unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> &m)
     {
-        if(!node) return;
-        clone = new UndirectedGraphNode(node->label);
-        clone->neighbors.assign(node->neighbors.size(), nullptr);
-        map[node] = clone;
-        for(int i = 0; i < node->neighbors.size(); ++i)
+        if (!node) return;
+        m[node] = new UndirectedGraphNode(node->label);
+        for(auto &n : node->neighbors)
         {
-            if(map.find(node->neighbors[i]) != map.end())
-                clone->neighbors[i] = map[node->neighbors[i]];
-            else
-                cloneGraph(clone->neighbors[i], node->neighbors[i], map);
+            if(m.find(n) == m.end())
+                cloneGraph(n, m);
+            m[node]->neighbors.push_back(m[n]);
         }
     }
 };
