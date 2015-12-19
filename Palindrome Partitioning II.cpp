@@ -64,6 +64,8 @@ public:
     }
 };
 
+//Taken from leetcode discussion
+//https://leetcode.com/discuss/9476/solution-does-not-need-table-palindrome-right-uses-only-space
 class Solution3 
 {
 public:
