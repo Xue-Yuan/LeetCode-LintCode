@@ -22,25 +22,22 @@ class Solution
 public:
     string getPermutation(int n, int k)
     {
-        vector<int> perNum(10, 1);
-        for(int i = 1; i <= 10; ++i)
-            perNum[i] = i * perNum[i-1];
-
-        cout << endl;
-        vector<int> nums(10);
-        for(int i = 0; i <= 9; ++i)
-            nums[i] = i+1;
-
-        string str = "";
-        k = k - 1;
-        while(n)
+        vector<int> nums(n), tot(n, 1);
+        for (int i = 0; i < n; ++i)
+            nums[i] = i + 1;
+        for (int i = 1; i < n; ++i)
+            tot[i] = tot[i - 1] * i;
+            
+        --k;
+        string ret = "";
+        while (n)
         {
-            int pos = k / perNum[n-1];
-            str += to_string(nums[pos]);
-            nums.erase(nums.begin() + pos);
-            k %= perNum[n-1];
-            --n;
+            int i = k / tot[n - 1];
+            ret += char(nums[i] + '0');
+            nums.erase(nums.begin() + i);
+            k = k % tot[n - 1];
+            n--;
         }
-        return str;
+        return ret;
     }
 };

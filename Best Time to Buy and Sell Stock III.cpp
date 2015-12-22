@@ -53,7 +53,7 @@ public:
             2: 2 buys/1 sell, 
             3, 2 buys/sells
         */
-        int states[2][4] = {INT_MIN, 0, INT_MIN, 0}; 
+        int states[2][4]{INT_MIN, 0, INT_MIN, 0}; 
         int len = prices.size(), i, cur = 0, next =1;
         for(i=0; i<len; ++i)
         {
