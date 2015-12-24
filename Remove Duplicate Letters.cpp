@@ -28,6 +28,9 @@ public:
         string res = {s[0]};
         occurence[s[0] - 'a'] = true;
         
+        //res is always the smallest in lexicographical order.
+        //  So when a letter occurs before, no need to deal with
+        //  it again.
         for (int i = 1; i < s.size(); ++i)
         {
             if (occurence[s[i] - 'a'])

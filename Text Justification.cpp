@@ -1,16 +1,16 @@
 /*
-    Given an array of words and a length L, format the text 
-        such that each line has exactly L characters and is 
+    Given an array of words and a length maxWidth, format the text 
+        such that each line has exactly maxWidth characters and is 
         fully (left and right) justified.
 
     You should pack your words in a greedy approach; that is, 
         pack as many words as you can in each line. Pad extra 
         spaces ' ' when necessary so that each line has exactly 
-        L characters.
+        maxWidth characters.
 
     Extra spaces between words should be distributed as evenly 
         as possible. If the number of spaces on a line do not 
-        divide evenly between words, the empty slots on the l
+        divide evenly between words, the empty slots on the maxWidth
         eft will be assigned more spaces than the slots on the 
         right.
 
@@ -19,7 +19,7 @@
 
     For example,
         words: ["This", "is", "an", "example", "of", "text", "justification."]
-        L: 16.
+        maxWidth: 16.
 
     Return the formatted lines as:
         [
@@ -28,6 +28,45 @@
            "justification.  "
         ]
 */
+
+//Taken from https://github.com/leetcoders/LeetCode/blob/master/TextJustification.h
+//  Truly elegent code. Wish one day I could write something like this.
+class Solution
+{
+public:
+    vector<string> fullJustify(vector<string> &words, int maxWidth)
+    {
+        vector<string> res;
+        int i = 0;
+        while (i < words.size())
+        {
+            int length = (int)words[i].size();
+            int j = i + 1;
+            while (j < words.size() && length + words[j].size() + (j-i) <= maxWidth)
+                length += words[j++].size();
+            // build line
+            string s(words[i]);
+            bool isLastLine = (j == words.size());
+            bool oneWord = (j == i + 1);
+            /*
+            int average = (isLastLine || oneWord) ? 1 : (maxWidth - length) / (j - i - 1);
+            int extra = (isLastLine || oneWord) ? 0 : (maxWidth - length) % (j - i - 1);
+            */
+            int average = isLastLine || oneWord ? 1 : (maxWidth - length) / (j - i - 1);
+            int extra = isLastLine || oneWord ? 0 : (maxWidth - length) % (j - i - 1);
+            for (int k = i + 1; k < j; ++k)
+            {
+                s.append(extra-- > 0 ? average + 1 : average, ' ');
+                s.append(words[k]);
+            }
+            s.append(maxWidth - s.size(), ' ');
+            // push line
+            res.push_back(s);
+            i = j;
+        }
+        return res;
+    }
+};
 
 class Solution2
 {

@@ -21,61 +21,52 @@
     A sorted sequence is needed to speed up the searching. Any kind of sorting will work.
 */
 
-struct treeNode
+struct Node
 {
     int val;
-    int cnt;    //number of subtree nodes + root
-    treeNode *left;
-    treeNode *right;
-    treeNode(int _v, int _c):val(_v), cnt(_c), left(nullptr), right(nullptr){}
+    int cnt;    //data rooted at this node.
+    Node *left, *right;
+    Node(int v, int c): val(v), cnt(c), left(nullptr), right(nullptr) {}
 };
 
+//When duplicates happens, no extra nodes inserted. Simply increment
+//  the cnt.
 class Solution
 {
 private:
-    int insert(treeNode *&root, int num, int accumulated_cnt)
+    int insert(Node *&root, int data, int acc)
     {
         if (!root)
         {
-            root = new treeNode(num, 1);
-            return 0;
+            root = new Node(data, 1);
+            return acc;
         }
-        //If duplicates happens, no extra node will be added. Instead
-        //  increment the node->cnt.
-        (root->cnt)++;
-        if (num == root->val)
-            return (root->left ? root->left->cnt : 0) + accumulated_cnt;
-        if (num > root->val)
-        {
-            if (!root->right) root->right = new treeNode(num, 0);
-            return insert(root->right, num, accumulated_cnt + root->cnt - root->right->cnt - 1);  //left subtree nodes and the root itself
-        }
-        
-        if (!root->left) root->left = new treeNode(num, 0);
-        return insert(root->left, num, accumulated_cnt);
+        root->cnt++;
+        if (data == root->val)
+            return (root->left ? root->left->cnt : 0) + acc;
+        if (data < root->val)
+            return insert(root->left, data, acc);
+        //data > root->val
+        return insert(root->right, data, acc + root->cnt - 1 - (root->right ? root->right->cnt : 0));
     }
-    
-    void destoryTree(treeNode *root)
+    void destory(Node *root)
     {
         if (!root) return;
-        destoryTree(root->left);
-        destoryTree(root->right);
+        destory(root->left);
+        destory(root->right);
         delete root;
     }
 public:
     vector<int> countSmaller(vector<int>& nums)
     {
-        if (nums.empty()) return {};
-        
         vector<int> ret(nums.size());
-        treeNode *root = nullptr;
-        
         for (int i = (int)nums.size() - 1; i >= 0; --i)
             ret[i] = insert(root, nums[i], 0);
-        
-        destoryTree(root);
+        destory(root);
         return ret;
     }
+private:
+    Node *root = nullptr;
 };
 
 class Solution2
