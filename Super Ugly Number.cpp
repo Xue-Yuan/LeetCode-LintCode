@@ -25,10 +25,7 @@ private:
     class myGreater
     {
     public:
-        bool operator()(group &g1, group &g2)
-        {
-            return g1.val > g2.val;
-        }
+        bool operator()(group &g1, group &g2) {return g1.val > g2.val;}
     };
 public:
     int nthSuperUglyNumber(int n, vector<int>& primes)
@@ -56,5 +53,44 @@ public:
         }
 
         return ugly.back();
+    }
+};
+
+//Record the maximun prime factor of each ugly number, and only multiply
+//  it by the prime factor which is not less than the prime factor of the
+//  ugly number. So we can avoid duplicates.
+class Solution
+{
+    //val, idx, prime factor
+    //  val: the candidate ugly number
+    //  idx: the index of the ugly number in res that is gonna to be multiplied
+    //  prime factor: the prime factor of the candidate ugly number.
+    using TIII = tuple<int, int, int>;
+private:
+    class myGreater
+    {
+    public:
+        bool operator()(TIII &a, TIII &b) {return get<0>(a) > get<0>(b);}
+    };
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes)
+    {
+        priority_queue<TIII, vector<TIII>, myGreater> pq;
+        vector<int> res(n, 1), max_factor(n, 1);
+        res[0] = 1;
+        
+        for (auto &p : primes)
+            pq.push(make_tuple(p, 1, p));
+        
+        for(int idx = 1; idx < n;)
+        {
+            auto tmp = pq.top();
+            pq.pop();
+            res[idx] = get<0>(tmp);
+            max_factor[idx++] = get<2>(tmp);
+            while (max_factor[get<1>(tmp)] > get<2>(tmp)) get<1>(tmp)++;
+            pq.push(make_tuple(res[get<1>(tmp)] * get<2>(tmp), get<1>(tmp) + 1, get<2>(tmp)));
+        }
+        return res.back();
     }
 };
