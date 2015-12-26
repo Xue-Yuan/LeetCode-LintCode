@@ -37,56 +37,52 @@
         return [3, 4]
 */
 
-//remove leave layer by layer
+//remove leave layer by layer. The answer is(are) the node(s) left.
+
 class Solution
 {
 public:
     vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges)
     {
-        if(n == 1) return {0};
-        if(n == 2) return {0, 1};
+        if (n == 1) return {0};
+        
         vector<vector<int>> graph(n);
-        vector<int> degree(n, 0);
-        //construct graph
-        for(auto &p : edges)
+        vector<int> degree(n);
+        for (auto &p : edges)
         {
             graph[p.first].push_back(p.second);
             graph[p.second].push_back(p.first);
             degree[p.first]++;
             degree[p.second]++;
         }
-        unordered_set<int> unvisited;
-        queue<int> cur, next;
-        for (int i = 0; i < n; ++i)
-        {
-            unvisited.insert(i);
-            if(degree[i] == 1)
-            {
-                cur.push(i);
-                unvisited.erase(i);
-            }
-        }
         
-        while (unvisited.size() > 2)
+        queue<int> cur, next;
+        for (int i = 0; i < degree.size(); ++i)
+            if (degree[i] == 1)
+                cur.push(i);
+        
+        //A node is considered deleted only when it gets out of the queue.
+        while (n > 2)
         {
-            while(!cur.empty())
+            while (!cur.empty())
             {
-                int node = cur.front();
+                auto node = cur.front();
                 cur.pop();
-                for(auto &i : graph[node])
-                {
-                    if(unvisited.find(i) != unvisited.end())
-                    {
-                        if(--degree[i] == 1)
-                        {
-                            next.push(i);
-                            unvisited.erase(i);
-                        }
-                    }
-                }
+                degree[node]--;
+                n--;
+                for (auto &i : graph[node])
+                    if (--degree[i] == 1)
+                        next.push(i);
             }
             swap(cur, next);
         }
-        return {unvisited.begin(), unvisited.end()};
+        
+        vector<int> ret;
+        while (!cur.empty())
+        {
+            ret.push_back(cur.front());
+            cur.pop();
+        }
+        return ret;
     }
 };
