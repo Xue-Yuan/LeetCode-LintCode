@@ -3,13 +3,10 @@
         1. efficient in pushing
         2. efficient in poping
 */
-#include <queue>
 
 /*
     This version is efficient in pushing
 */
-using namespace std;
-
 class myStack
 {
 private:

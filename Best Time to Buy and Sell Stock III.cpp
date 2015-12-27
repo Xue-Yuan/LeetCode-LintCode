@@ -4,10 +4,6 @@
     Design an algorithm to find the maximum profit. You may complete at most two transactions.
 
 */
-#include <vector>
-
-using std::vector;
-
 /*
     From left to right, we can find max profit by one transaction.
     From right to left, we find another one.

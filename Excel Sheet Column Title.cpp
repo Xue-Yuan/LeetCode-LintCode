@@ -18,9 +18,6 @@ class Solution
 public:
     string convertToTitle(int n)
     {
-        if (n == 0)
-            return "";
-        
         string ret = "";
         while (n > 0)
         {

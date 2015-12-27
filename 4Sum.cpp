@@ -13,11 +13,6 @@ The solution set must not contain duplicate quadruplets.
 */
 //http://www.geeksforgeeks.org/find-four-elements-that-sum-to-a-given-value-set-2/
 //Not a good way to list all results. For one result, it's good enough.
-
-#include <vector>
-
-using std::vector;
-
 class Solution 
 {
 public:

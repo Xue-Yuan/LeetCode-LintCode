@@ -8,9 +8,6 @@
         Return 6, because digit 1 occurred in the following 
         numbers: 1, 10, 11, 12, 13.
 */
-#include <vector>
-
-using std::vector;
 
 /*
     First save the num of ones from 1 ~ 9, 1 ~ 99, 1 ~ 999, ...

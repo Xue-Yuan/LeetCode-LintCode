@@ -19,9 +19,6 @@ add(3)
 findMedian() -> 2
 */
 
-#include <queue>
-
-using namespace std;
 /*
     currentSize odd: median is the rightMinHeap.top()
     currentSize even: median is (rightMinHeap.top() + leftMaxHeap.top()) / 2.0

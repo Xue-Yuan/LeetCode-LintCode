@@ -33,9 +33,6 @@ public:
                 }
             }    
         }
-        // for(auto &i : lps)
-        //     cout << i << ' ';
-        // cout << endl;
     }
     void KMPsearch(const string &pat, const string &txt)
     {
@@ -72,7 +69,6 @@ class Solution
 public:
     int strStr(string haystack, string needle) 
     {
-
         vector<int> lps(needle.size(), 0);
         for(int i = 1; i < needle.size(); ++i)
         {

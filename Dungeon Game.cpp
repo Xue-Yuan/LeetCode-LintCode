@@ -86,12 +86,9 @@ public:
         row[c - 1] = 1;
         
         for(int i = r - 1; i >= 0; --i)
-        {
             for(int j = c - 1; j >= 0; --j)
-            {
                 row[j] = max(min(row[j + 1], row[j]) - dungeon[i][j] , 1);
-            }
-        }
+        
         return row[0];
     }
 };

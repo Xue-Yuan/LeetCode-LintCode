@@ -69,10 +69,6 @@ private:
 
 class LRUCache_2
 {
-private:
-    unordered_map<unsigned, pair<int, list<unsigned>::iterator>> cache;
-    list<unsigned> priorities;
-    int capacity;
 public:
     LRUCache(int capacity): capacity(capacity)
     {
@@ -110,6 +106,10 @@ public:
             cache[key] = {value, priorities.insert(priorities.begin(), key)};
         }
     }
+private:
+    unordered_map<unsigned, pair<int, list<unsigned>::iterator>> cache;
+    list<unsigned> priorities;
+    int capacity;
 };
 
 

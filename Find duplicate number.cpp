@@ -11,12 +11,9 @@
         There is only one duplicate number in the array, but it could 
             be repeated more than once.
 */
-#include <vector>
-
-using std::vector; 
 
 /*
-    The main trick we need to use to solve this problem is to notice that because
+    The main trick is to notice that because
     we have an array of n elements ranging from 0 to n - 2, we can think of the
     array as defining a function f from the set {0, 1, ..., n - 1} onto itself.
     This function is defined by f(i) = A[i].  Given this setup, a duplicated

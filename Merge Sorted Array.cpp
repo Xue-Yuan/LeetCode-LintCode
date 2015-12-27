@@ -15,9 +15,7 @@ public:
             else
                 nums1[pos--] = nums2[idx2--];
         }
-        while(idx1 >= 0)
-            nums1[pos--] = nums1[idx1--];
-        while(idx2 >= 0)
-            nums1[pos--] = nums2[idx2--];
+        while(idx1 >= 0) nums1[pos--] = nums1[idx1--];
+        while(idx2 >= 0) nums1[pos--] = nums2[idx2--];
     }
 };
