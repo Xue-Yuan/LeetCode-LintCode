@@ -28,34 +28,27 @@ private:
     string addTwoString(const string &s1, const string &s2)
     {
         int end1 = s1.size() - 1, end2 = s2.size() - 1;
-        string res = "";
-        int sum = 0, carry = 0;
+        string res(max(end1, end2) + 1, '0');
+        int sum = 0, carry = 0, idx = (int)res.size() - 1;
         while(end1 >= 0 || end2 >= 0)
         {
             sum = 0;
-            if(end1 >= 0)
-                sum += (s1[end1--] - '0'); 
-            if(end2 >= 0)
-                sum += (s2[end2--] - '0');
+            if(end1 >= 0) sum += (s1[end1--] - '0'); 
+            if(end2 >= 0) sum += (s2[end2--] - '0');
             sum += carry;
-            carry = sum / 10;
+            carry = sum > 9;
             sum = sum % 10;
-            res += char(sum + '0');
+            res[idx--] = char(sum + '0');
         }
-        if(carry) res += char(carry + '0');
-        return {res.rbegin(), res.rend()};
+        return carry ? "1" + res : res;
     }
 public:
     bool isAdditiveNumber(string num) 
     {
         for(int i = 1; i < num.size(); ++i)
-        {
             for(int j = i + 1; j < num.size(); ++j)
-            {
                 if(isAdditiveNumber(num, 0, i, j))
                     return true;
-            }
-        }
         return false;
     }
     //DFS. The end is exclusive.
@@ -81,7 +74,7 @@ public:
 Taken from https://leetcode.com/discuss/70129/recursive-using-string-represent-number-avoid-overflow-issue
 */
 
-class Solution2
+class Solution2 
 {
 private:
     string addS(string &s1, string &s2)
@@ -96,29 +89,29 @@ private:
         }
         return carrier>0?'1'+res:res;
     }
-
+    
 public:
-    bool isAdditiveNumber(string num) 
+    bool isAdditiveNumber(string num)
     {
         int i, j, curIdx, len = num.size();
         string sum, op1, op2;
-        for(i=1; i<= (num[0] !='0'? (len-1)/2:1);++i)
+        for(i = 1; i <= (num[0] != '0'? (len - 1) / 2 : 1);++i)
         {
-            for(j=1; j <= (num[i] !='0'? len-i*2:1);++j)
+            for(j = 1; j <= (num[i] != '0' ? len - i * 2 : 1); ++j)
             {
-                if(len<i+j+max(i,j)) break;
+                if(len < i + j + max(i,j)) break;
                 op1 = num.substr(0,i);
                 op2 = num.substr(i,j);
                 sum = addS(op1, op2);
-                curIdx=i+j;
-                while(curIdx<len && sum  == num.substr(curIdx,sum.size()) )
+                curIdx = i + j;
+                while(curIdx < len && sum  == num.substr(curIdx,sum.size()) )
                 {
                     curIdx += sum.size();
                     op1 = sum;
                     sum = addS(sum, op2);
                     op2 = op1;
                 }
-                if(curIdx==len) return true;
+                if(curIdx == len) return true;
             }
         }
         return false;

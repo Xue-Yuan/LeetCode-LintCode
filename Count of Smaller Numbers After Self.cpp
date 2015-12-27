@@ -105,3 +105,60 @@ public:
         return ret;
     }
 };
+
+//Merge sort solution. Instead of actually sort the nums array, we
+//  only record the position of the indices, by doing so we also do
+//  not have to re-locate the results.
+class Solution3
+{
+private:
+    void merge_countSmaller(vector<int>& indices, int first, int last, vector<int>& results, vector<int>& nums)
+    {
+        int count = last - first;
+        if (count > 1)
+        {
+            int step = count / 2;
+            int mid = first + step;
+            merge_countSmaller(indices, first, mid, results, nums);
+            merge_countSmaller(indices, mid, last, results, nums);
+            vector<int> tmp;
+            tmp.reserve(count);
+            int idx1 = first;
+            int idx2 = mid;
+            int semicount = 0;
+            while (idx1 < mid && idx2 < last)
+            {
+                if (nums[indices[idx1]] <= nums[indices[idx2]])
+                {
+                    tmp.push_back(indices[idx1]);
+                    results[indices[idx1]] += semicount;
+                    ++idx1;
+                }
+                else
+                {
+                    tmp.push_back(indices[idx2]);
+                    ++semicount;
+                    ++idx2;
+                }
+            }
+            while (idx1 < mid)
+            {
+                tmp.push_back(indices[idx1]);
+                results[indices[idx1]] += semicount;
+                ++idx1;
+            }
+            while (idx2 < last) tmp.push_back(indices[idx2++]);
+            move(tmp.begin(), tmp.end(), indices.begin()+first);
+        }
+    }
+public:
+    vector<int> countSmaller(vector<int>& nums)
+    {
+        int n = (int)nums.size();
+        vector<int> results(n, 0);
+        vector<int> indices(n, 0);
+        iota(indices.begin(), indices.end(), 0);
+        merge_countSmaller(indices, 0, n, results, nums);
+        return results;
+    }
+};

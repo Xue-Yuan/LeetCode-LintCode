@@ -22,6 +22,8 @@ public:
         int cur = 0, next = 1;
         vector<vector<int>> states(2, vector<int>(2, 0));
         
+        //Here should be -prices[0]. But if we do so we have to
+        //  deal with whether the vector of prices is empty or not.
         states[cur][sell] = INT_MIN;
         //actually it's better to manually control the first
         //  transaction to avoid sell before buy. But with

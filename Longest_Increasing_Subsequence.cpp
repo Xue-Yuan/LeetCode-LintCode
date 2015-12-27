@@ -8,32 +8,27 @@ The longest increasing subsequence is [2, 3, 7, 101], therefore the length is 4.
 Your algorithm should run in O(n2) complexity.
 */
 
-#include <vector>
-
-using std::vector;
-
 /*
     Dynamic programming. An auxiliary array is used to store the
         longest length from this position on.
 */
 
-class Solution 
+class Solution
 {
 public:
-    int lengthOfLIS(vector<int>& nums) 
+    int lengthOfLIS(vector<int>& nums)
     {
-        int maxLen = 1;
-        vector<int> len(nums.size(), 1);
-        for(int i = nums.size() - 1; i >= 0; --i)
-        {
-            for(int j = i + 1; j < nums.size(); ++j)
-            {
-                if(nums[j] > nums[i])
-                    len[i] = max(len[i], len[j] + 1);
-            }
-            maxLen = max(len[i], maxLen);
-        }
-        return maxLen;
+        if (nums.empty()) return 0;
+        vector<int> dp(nums.size(), 1);
+        int max_res = 1;
+        for (int i = 1; i < nums.size(); ++i)
+            for (int j = 0; j < i; ++j)
+                if (nums[i] > nums[j])
+                {
+                    dp[i] = max(dp[i], dp[j] + 1);
+                    max_res = max(max_res, dp[i]);
+                }
+        return max_res;
     }
 };
 

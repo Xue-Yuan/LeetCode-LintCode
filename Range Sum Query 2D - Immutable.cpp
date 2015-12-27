@@ -18,32 +18,33 @@
     sumRegion(1, 1, 2, 2) -> 11
     sumRegion(1, 2, 2, 4) -> 12
 */
-class NumMatrix 
+class NumMatrix
 {
 private:
-	vector<vector<int>> sumMatrix;
+    vector<vector<int>> sum;
 public:
-    NumMatrix(vector<vector<int>> &matrix): sumMatrix(matrix) 
+    NumMatrix(vector<vector<int>> &matrix)
     {
-    	if(matrix.empty()) return;
-        for(int i = 0; i < matrix.size(); ++i)
-        	for(int j = 1; j < matrix[0].size(); ++j)
-        		sumMatrix[i][j] += sumMatrix[i][j - 1];
-        for(int j = 0; j < matrix[0].size(); ++j)
-        	for(int i = 1; i < matrix.size(); ++i)
-        		sumMatrix[i][j] += sumMatrix[i - 1][j];
+        if (matrix.empty() || matrix[0].empty())
+        {
+            sum = matrix;
+            return;
+        }
+        sum.assign(matrix.size() + 1, vector<int>(matrix[0].size() + 1, 0));        
+        for (int i = 0; i < matrix.size(); ++i)
+            for (int j = 0; j < matrix[0].size(); ++j)
+                sum[i + 1][j + 1] += matrix[i][j] + sum[i + 1][j];
+    
+        for (int i = 0; i < matrix.size(); ++i)
+            for (int j = 0; j < matrix[0].size(); ++j)
+                sum[i + 1][j + 1] += sum[i][j + 1];
     }
-
-    int sumRegion(int row1, int col1, int row2, int col2) 
+    
+    int sumRegion(int row1, int col1, int row2, int col2)
     {
-    	if(row1 < 0 || col1 < 0 || row1 >= sumMatrix.size() || col1 >= sumMatrix[0].size())
-            return 0;
-        if(row1 == 0 && col1 == 0)
-        	return sumMatrix[row2][col2];
-        else if(row1 == 0)
-        	return sumMatrix[row2][col2] - sumMatrix[row2][col1 - 1];
-        else if(col1 == 0)
-        	return sumMatrix[row2][col2] - sumMatrix[row1 - 1][col2];
-        return sumMatrix[row2][col2] - sumMatrix[row1 - 1][col2] - sumMatrix[row2][col1 - 1] + sumMatrix[row1 - 1][col1 - 1];
+        if (sum.empty() || sum[0].empty()) return 0;
+        int br = (int)sum.size() - 2, bc = (int)sum[0].size() - 2;
+        if (row1 < 0 || col1 < 0 || row2 > br || col2 > bc) return 0;
+        return sum[row2 + 1][col2 + 1] - sum[row2 + 1][col1] - sum[row1][col2 + 1] + sum[row1][col1];
     }
 };
