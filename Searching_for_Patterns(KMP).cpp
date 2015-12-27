@@ -1,5 +1,3 @@
-using namespace std;
-
 /*
     To understand this, lps table stores a length (longest proper prefix and suffix match),
         and the length is related to the index. Index = length - 1
