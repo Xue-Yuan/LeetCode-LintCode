@@ -40,22 +40,21 @@ class Solution
 private:
     int maxPathSum(TreeNode *root, int &ma)
     {
-        if (!root)
-            return 0;
+        if (!root) return 0;
+
         int left =  maxPathSum(root->left, ma);
         int right = maxPathSum(root->right, ma);
         ma = max(ma, root->val + left + right);
+
         return max(max(0, max(left, right)) + root->val, 0);
     }
 
 public:
     int maxPathSum(TreeNode* root)
     {
-        if (!root)
-            return INT_MIN;
+        if (!root) return INT_MIN;
         
-        int ma = root->val;
-        
+        int ma = root->val;        
         maxPathSum(root, ma);
         
         return ma;
