@@ -14,7 +14,12 @@
 */
 
 //Taken from http://blog.csdn.net/kenden23/article/details/18696083
-//  The hardest part is to gather the rule.
+//  The hardest part is to gather the rules.
+
+/*
+    After 'e' or 'E', no more 'e's or 'E's or dicimals.
+    "3." and ".3" are both considered valid.
+*/
 class Solution
 {
 public:
@@ -32,30 +37,28 @@ public:
         int transTable[][6] =
         {
         // INVA SPA SIG  DI  DO EXP
-            -1,  0,  3,  1,  2, -1,//0初始无输入或者只有space的状态
-            -1,  8, -1,  1,  4,  5,//1输入了数字之后的状态
-            -1, -1, -1,  4, -1, -1,//2前面无数字，只输入了Dot的状态
-            -1, -1, -1,  1,  2, -1,//3输入了符号状态
-            -1,  8, -1,  4, -1,  5,//4前面有数字和有dot的状态
-            -1, -1,  6,  7, -1, -1,//5'e' or 'E'输入后的状态
-            -1, -1, -1,  7, -1, -1,//6输入e之后输入Sign的状态
-            -1,  8, -1,  7, -1, -1,//7输入e后输入数字的状态
-            -1,  8, -1, -1, -1, -1,//8前面有有效数输入之后，输入space的状态
+            -1,  0,  4,  1,  2, -1, //0 initial state, leading spaces
+            -1,  8, -1,  1,  3,  5, //1 digits after initial
+            -1, -1, -1,  3, -1, -1, //2 dot only
+            -1,  8, -1,  3, -1,  5, //3 dot and digits
+            -1, -1, -1,  1,  2, -1, //4 sign only
+            -1, -1,  7,  6, -1, -1, //5 exp occurs
+            -1,  8, -1,  6, -1, -1, //6 digits after exp
+            -1, -1, -1,  6, -1, -1, //7 sign after exp
+            -1,  8, -1, -1, -1, -1  //8 trailing spaces
         };
         int state = 0;
-        int idx = 0;
-        while (idx < s.size())
+        for (auto &c : s)
         {
             InputType input = INVALID;
-            if (s[idx] == ' ') input = SPACE;
-            else if (s[idx] == '+' || s[idx] == '-') input = SIGN;
-            else if (isdigit(s[idx])) input = DIGIT;
-            else if (s[idx] == '.') input = DOT;
-            else if (s[idx] == 'e' || s[idx] == 'E') input = EXPONENT;
+            if (c == ' ') input = SPACE;
+            else if (c == '+' || c] == '-') input = SIGN;
+            else if (isdigit(c)) input = DIGIT;
+            else if (c == '.') input = DOT;
+            else if (c == 'e' || s[idx] == 'E') input = EXPONENT;
             state = transTable[state][input];
             if (state == -1) return false;
-            ++idx;
         }
-        return state == 1 || state == 4 || state == 7 || state == 8;
+        return state == 1 || state == 3 || state == 6 || state == 8;
     }
 };
