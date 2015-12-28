@@ -59,6 +59,5 @@ public:
         maxPathSum(root, ma);
         
         return ma;
-    }
-    
+    }    
 };
