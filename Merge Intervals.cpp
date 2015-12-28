@@ -20,18 +20,9 @@ class Solution
 {
 private:
     //a.start <= b.start
-    bool contains(Interval &a, Interval &b)
-    {
-        return a.end >= b.end;
-    }
-    bool overlaps(Interval &a, Interval &b)
-    {
-        return a.end >= b.start && a.end < b.end;
-    }
-    bool disjoint(Interval &a, Interval &b)
-    {
-        return a.end < b.start;
-    }
+    bool contains(Interval &a, Interval &b) {return a.end >= b.end;}
+    bool overlaps(Interval &a, Interval &b) {return a.end >= b.start && a.end < b.end;}
+    bool disjoint(Interval &a, Interval &b) {return a.end < b.start;}
 public:
     vector<Interval> merge(vector<Interval>& intervals) 
     {

@@ -14,19 +14,20 @@
 class Solution 
 {
 public:
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) 
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
     {
-        ListNode ph(0), *cur = &ph;
-        while (l1 && l2) 
+        ListNode ph(0), *pre = &ph;
+        while (l1 && l2)
         {
             ListNode *&min = l1->val < l2->val ? l1 : l2;
-            cur->next = min;
-            cur = cur->next;
+            pre->next = min;
+            pre = pre->next;
             min = min->next;
         }
-        if (l1) cur->next = l1;
-        if (l2) cur->next = l2;
+        if (l1) pre->next = l1;
+        if (l2) pre->next = l2;
         return ph.next;
+    }
 };
 
 //recursively
