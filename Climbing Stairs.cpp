@@ -10,15 +10,15 @@ class Solution
 public:
     int climbStairs(int n)
     {
-        if (n <= 2) return n;
+        if (n < 3) return n;
         
-        int start = 2, f_1 = 1, f_2 = 2;
-        while (start++ < n)
+        int one_away = 2, two_away = 1; //n = 2
+        for (int i = 3; i <= n; ++i)
         {
-            int f_s = f_1 + f_2;
-            f_1 = f_2;
-            f_2 = f_s;
+            int cur = one_away + two_away;
+            two_away = one_away;
+            one_away = cur;
         }
-        return f_2;
+        return one_away;
     }
 };

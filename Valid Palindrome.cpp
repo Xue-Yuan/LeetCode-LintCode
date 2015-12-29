@@ -20,15 +20,12 @@ public:
     bool isPalindrome(string s)
     {
         int beg = 0, end = (int)s.size() - 1;
-        while(beg < end)
+        while (beg < end)
         {
-            while(beg < end && !(isalpha(s[beg]) || isdigit(s[beg])))
-                beg++;
-            while(beg < end && !(isalpha(s[end]) || isdigit(s[end])))
-                end--;
-            if(beg < end)
-                if(tolower(s[beg++]) != tolower(s[end--]))
-                    return false;
+            while (beg < end && !isalnum(s[beg])) beg++;
+            while (beg < end && !isalnum(s[end])) end--;
+            if (tolower(s[beg]) != tolower(s[end])) return false;
+            ++beg, --end;
         }
         return true;
     }

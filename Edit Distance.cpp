@@ -40,8 +40,7 @@ public:
     int minDistance(string word1, string word2) 
     {
         vector<int> dp(word2.size() + 1, 0);
-        for (int j = 0; j <= word2.size(); ++j)
-            dp[j] = j;
+        iota(dp.begin(), dp.end(), 0);
         
         for (int i = 1; i <= word1.size(); ++i)
         {

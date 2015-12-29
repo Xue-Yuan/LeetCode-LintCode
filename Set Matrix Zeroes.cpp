@@ -29,3 +29,50 @@ public:
                 matrix[r][i] = INT_MAX - 3;
     }
 };
+
+class Solution2
+{
+private:
+    void setIthRowZeros(vector<vector<int>> &matrix, int i)
+    {
+        for (int j = 0; j < matrix[0].size(); ++j)
+            matrix[i][j] = 0;
+    }
+    void setJthColZeros(vector<vector<int>> &matrix, int j)
+    {
+        for (int i = 0; i < matrix.size(); ++i)
+            matrix[i][j] = 0;
+    }
+public:
+    void setZeroes(vector<vector<int>> &matrix)
+    {
+        if (matrix.empty()) return;
+        int N = matrix.size(), M = matrix[0].size();
+        bool setFirstRowZero = false;
+        bool setFirstColZero = false;
+
+        for (int i = 0; i < N && !setFirstColZero; ++i)
+            setFirstColZero = (matrix[i][0] == 0);
+        for (int j = 0; j < M && !setFirstRowZero; ++j)
+            setFirstRowZero = (matrix[0][j] == 0);
+
+        for (int i = 1; i < N; ++i)
+            for (int j = 1; j < M; ++j)
+                if (matrix[i][j] == 0) 
+                {
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                }
+
+        for (int i = 1; i < N; ++i)
+            if (matrix[i][0] == 0)
+                setIthRowZeros(matrix, i);
+
+        for (int j = 1; j < M; ++j)
+            if (matrix[0][j] == 0)
+                setJthColZeros(matrix, j);
+
+        if (setFirstRowZero) setIthRowZeros(matrix, 0);
+        if (setFirstColZero) setJthColZeros(matrix, 0);
+    }
+};

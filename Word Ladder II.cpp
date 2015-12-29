@@ -42,7 +42,11 @@ class Solution
 public:
     vector<vector<string>> findLadders(string start, string end, unordered_set<string> &dict)
     {
-        vector<unordered_set<string>> level(2);     //We can't erase a word until one level ends. The same word may happen in different paths of the same level. But it won't occur is following levels, otherwise those paths cannot be shortest paths.
+        //We can't erase a word until one level ends. The same word may 
+        //  happen in different paths of the same level. But it won't occur 
+        //  is following levels, otherwise those paths cannot be shortest 
+        //  paths.
+        vector<unordered_set<string>> level(2);     
         int cur = 0, next = 1;
         unordered_map<string, vector<string>> trace;    //this is used to trace back and build the path.
         
@@ -59,17 +63,18 @@ public:
                 string preWord = word;
                 for (size_t i  = 0; i < word.size(); ++i)
                 {
+                    char save = word[i];
                     for (char ch = 'a'; ch <= 'z'; ++ch)
                     {
                         if (word[i] == ch) continue;
-                        swap(word[i],ch);
+                        word[i] = ch;
                         if (dict.find(word) != dict.end())
                         {
                             trace[word].push_back(preWord);
                             level[next].insert(word);
                         }
-                        swap(word[i], ch);
                     }
+                    word[i] = save;
                 }
             }
             if(level[next].find(end) != level[next].end() || level[next].empty())
