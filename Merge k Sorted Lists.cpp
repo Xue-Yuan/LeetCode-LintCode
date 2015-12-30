@@ -54,3 +54,29 @@ public:
         return ph.next;
     }
 };
+
+//Use priority_queue, of the same time complexity.
+class Solution2
+{
+private:
+    struct myGreater
+    {
+        bool operator()(ListNode *&a, ListNode *&b) {return a->val > b->val;}
+    };
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists)
+    {
+        priority_queue<ListNode*, vector<ListNode*>, myGreater> pq;
+        for (auto &e : lists)
+            if (e) pq.push(e);  //Pay attention here! We have to check first
+        
+        ListNode ph(0), *pre = &ph;
+        while (!pq.empty())
+        {
+            pre = pre->next = pq.top();
+            pq.pop();
+            if (pre->next) pq.push(pre->next);
+        }
+        return ph.next;
+    }
+};

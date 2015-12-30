@@ -14,21 +14,15 @@ class Solution
 public:
     int minCut(string s)
     {
-        vector<vector<bool>> dp(s.size(), vector<bool>(s.size(), false));
-        
-        int slen = (int)s.size();
-        for (int i = slen - 1; i >= 0; --i)
-            for (int j = i; j < slen; ++j)
-                dp[i][j] = (s[i] == s[j]) && (j <= i + 2 || dp[i + 1][j - 1]);
-        
-        vector<int> cnt(s.size(), slen - 1);
-        for (int i = slen - 1; i >= 0; --i)
+        vector<vector<bool>> dp(s.size(), vector<bool>(s.size(), false));       
+        vector<int> cnt(s.size(), (int)s.size() - 1);
+        for (int i = (int)s.size() - 1; i >= 0; --i)
         {
-            for (int j = i; j < slen; ++j)
+            for (int j = i; j < s.size(); ++j)
             {
-                if (dp[i][j])
+                if (dp[i][j] = (s[i] == s[j]) && (j <= i + 2 || dp[i + 1][j - 1]))
                 {
-                    if (j == slen - 1)  cnt[i] = 0;
+                    if (j == (int)s.size() - 1) {cnt[i] = 0; break;}
                     else cnt[i] = min(cnt[i], cnt[j + 1] + 1);
                 }
             }
@@ -54,7 +48,7 @@ public:
             {
                 if(dp[next][j] = (s[i] == s[j]) && (j <= i + 2 || dp[cur][j - 1]))
                 {
-                    if (j == slen - 1)  cnt[i] = 0;
+                    if (j == slen - 1) {cnt[i] = 0; break;}
                     else cnt[i] = min(cnt[i], cnt[j + 1] + 1);
                 }
             }
