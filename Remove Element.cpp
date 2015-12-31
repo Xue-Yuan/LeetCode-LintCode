@@ -6,21 +6,14 @@
         what you leave beyond the new length.
 */
 
-class Solution 
+class Solution
 {
 public:
-    int removeElement(vector<int>& nums, int val) 
+    int removeElement(vector<int>& nums, int val)
     {
-        int cnt = 0, cur = 0;
-        for(int i = 0; i < nums.size(); ++i)
-        {
-            while(i < nums.size() && nums[i] == val) ++i;
-            if(i < nums.size())
-            {
-                nums[cur++] = std::move(nums[i]);
-                cnt++;
-            }
-        }
-        return cnt;
+        int cur = 0;
+        for (int i = 0; i < nums.size(); ++i)
+            if (nums[i] != val) nums[cur++] = nums[i];
+        return cur;
     }
 };

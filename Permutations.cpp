@@ -35,3 +35,29 @@ public:
         return ret;
     }
 };
+
+class Solution2
+{
+private:
+    //pass by value. The result is in monotonic order.
+    void recursion(vector<int> nums, int beg, vector<vector<int>> &res) 
+    {
+        if (beg == nums.size()) 
+        {
+            res.push_back(nums);
+            return;
+        }
+        for (int i = beg; i < nums.size(); i++) 
+        {
+            swap(nums[i], nums[beg]);
+            recursion(nums, beg + 1, res);
+        }
+    }
+public:
+    vector<vector<int> > permute(vector<int> &nums) 
+    {
+        vector<vector<int>> res;
+        recursion(nums, 0, res);
+        return res;
+    }
+};

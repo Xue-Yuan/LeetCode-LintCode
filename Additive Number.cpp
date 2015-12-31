@@ -32,10 +32,9 @@ private:
         int sum = 0, carry = 0, idx = (int)res.size() - 1;
         while(end1 >= 0 || end2 >= 0)
         {
-            sum = 0;
+            sum = carry;
             if(end1 >= 0) sum += (s1[end1--] - '0'); 
             if(end2 >= 0) sum += (s2[end2--] - '0');
-            sum += carry;
             carry = sum > 9;
             sum = sum % 10;
             res[idx--] = char(sum + '0');
