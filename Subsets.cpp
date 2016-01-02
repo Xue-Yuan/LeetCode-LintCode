@@ -40,6 +40,7 @@ public:
     }
 };
 
+//kinda the same idea as the bit manipulation solution.
 class Solution2
 {
 public:
@@ -48,11 +49,12 @@ public:
         sort(nums.begin(), nums.end());
         vector<vector<int>> ret;
         ret.reserve(1 << nums.size());
-        subsets(nums, 0, {}, ret);
+        vector<int> path;
+        subsets(nums, 0, path, ret);
         return ret;
     }
-    //pass by value.
-    void subsets(vector<int> &nums, int cur, vector<int> path, vector<vector<int>> &ret)
+    
+    void subsets(vector<int> &nums, int cur, vector<int> &path, vector<vector<int>> &ret)
     {
         if (cur == nums.size())
         {
@@ -63,5 +65,55 @@ public:
         subsets(nums, cur + 1, path, ret);
         path.push_back(nums[cur]);
         subsets(nums, cur + 1, path, ret);
+        path.pop_back();
     }
 };
+
+//DFS
+class Solution3
+{
+public:
+    vector<vector<int>> subsets(vector<int> &nums) 
+    {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        res.reserve(1 << nums.size());
+        vector<int> vec;
+        subsets(nums, vec, 0, res);
+        return res;
+    }
+private:
+    void subsets(vector<int> &nums, vector<int> &vec, int begin, vector<vector<int> > &res) 
+    {
+        res.push_back(vec);
+        for (int i = begin; i != nums.size(); ++i) 
+        {
+            vec.push_back(nums[i]);
+            subsets(nums, vec, i + 1, res);
+            vec.pop_back();
+        }
+    }
+};
+
+class Solution
+{
+public:
+    vector<vector<int> > subsets(vector<int> &S) 
+    {
+        int sz = S.size();
+        vector<vector<int>> res;
+        res.reserve(1 << s.size());
+        sort(S.begin(), S.end());
+        for (int i = 0; i < S.size(); ++i) 
+        {
+            int sz = res.size();
+            for (int j = 0; j < sz; ++j) 
+            {
+                res.push_back(res[j]);
+                res.back().push_back(S[i]);
+            }
+        }
+        return res;
+    }
+};
+

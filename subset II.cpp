@@ -18,6 +18,7 @@ If nums = [1,2,2], a solution is:
 
 */
 
+//DFS
 class Solution 
 {
 public:
@@ -43,3 +44,32 @@ public:
         }
     }
 };
+
+//iteration
+class Solution 
+{
+public:
+    vector<vector<int> > subsetsWithDup(vector<int> &S) 
+    {
+        vector<vector<int>> res(1);
+        res.reserve(1 << S.size());
+        sort(S.begin(),S.end());
+        size_t presz = 0;
+        for(int i=0;i<S.size();i++)
+        {
+            int sz = res.size();
+            for (int j = 0; j < sz; ++j) 
+            {
+                if(i == 0 || S[i] != S[i-1] || j >= presz)
+                {
+                    res.push_back(res[j]);
+                    res.back().push_back(S[i]);
+                }
+            }
+            presz = sz;
+        }
+        return res;
+    }
+};
+
+
