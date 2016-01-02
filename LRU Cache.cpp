@@ -24,34 +24,23 @@ public:
     
     int get(int key) 
     {
-    	if(cache.find(key) != cache.end())
-    	{
-    		int value = cache[key]->second;
-    		lst.erase(cache[key]);
-    		cache[key] = lst.insert(lst.begin(), {key, value});
-    		return value;
-    	}
-    	else
-    		return -1;
+    	if (cache.find(key) == cache.end()) return -1;
+        int value = cache[key]->second;
+        lst.erase(cache[key]);
+        cache[key] = lst.insert(lst.begin(), {key, value});
+        return value;
     }
     
-    void set(int key, int value) 
+    void set(int key, int value)
     {
-    	if(cache.find(key) != cache.end())
-    	{   
-    		lst.erase(cache[key]);
-    		cache[key] = lst.insert(lst.begin(), {key, value});  		
-    	}
-    	else
-    	{
-    		if(cache.size() == max_size)
-    		{
-    			cache.erase(lst.back().first);
-    			lst.erase(--lst.end());			//lst.end() is the iterator one past the end
-    			//lst.pop_back();
-    		}    		
-    		cache[key] = lst.insert(lst.begin(), {key, value});
-    	}
+        if (cache.find(key) != cache.end()) lst.erase(cache[key]);
+        //it seems like lst.size() takes more time than cache.size()
+        else if (cache.size() == max_size)
+        {
+            cache.erase(lst.back().first);
+            lst.pop_back();
+        }
+        cache[key] = lst.insert(lst.begin(), {key, value});
     }
 private:
     //I use pair as the element of list so the map and the list
@@ -77,34 +66,23 @@ public:
     
     int get(int key)
     {
-        if (cache.find(key) != cache.end())
-        {
-            auto &pir = cache[key];
-            priorities.erase(pir.second);
-            pir.second = priorities.insert(priorities.begin(), key);
-            return pir.first;
-        }
-        return -1;
+        if (cache.find(key) == cache.end()) return -1;
+        auto &pir = cache[key];
+        priorities.erase(pir.second);
+        pir.second = priorities.insert(priorities.begin(), key);
+        return pir.first;
     }
     
     void set(int key, int value)
     {
         if (cache.find(key) != cache.end())
+            priorities.erase(cache[key].second);
+        else if (cache.size() == capacity)
         {
-            auto itr = cache[key].second;
-            priorities.erase(itr);
-            cache[key] = {value, priorities.insert(priorities.begin(), key)};
+            cache.erase(*--priorities.end());
+            priorities.pop_back();
         }
-        else
-        {
-            if (cache.size() == capacity)
-            {
-                auto itr = --priorities.end();
-                cache.erase(*itr);
-                priorities.erase(itr);
-            }
-            cache[key] = {value, priorities.insert(priorities.begin(), key)};
-        }
+        cache[key] = {value, priorities.insert(priorities.begin(), key)};
     }
 private:
     unordered_map<unsigned, pair<int, list<unsigned>::iterator>> cache;

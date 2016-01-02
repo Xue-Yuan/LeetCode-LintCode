@@ -18,10 +18,6 @@ If nums = [1,2,2], a solution is:
 
 */
 
-#include <vector>
-
-using std::vector;
-
 class Solution 
 {
 public:
