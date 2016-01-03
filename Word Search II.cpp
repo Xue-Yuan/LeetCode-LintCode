@@ -18,92 +18,82 @@
         ]
         Return ["eat","oath"].
 */
+
+/*
+             +---------+      +---------+      +---------+      +---------+
+    root --> |  [e]    | ---> |  [a]    | ---> |  [t]    | ---> |  [t]    |
+             |isWord: F|      |isWord: F|      |isWord: F|      |isWord: T|
+             +---------+      +---------+      +---------+      +---------+
+*/
 struct trieNode
 {
     vector<trieNode *> next;
     bool isWord;
-    trieNode():isWord(false), next(26, nullptr){}
+    trieNode(): next(26, nullptr), isWord(false){}
 };
 
-class trie
+class Solution 
 {
-    //Make root public because later we'll manually do the search
-public:
-    trieNode *root;
 private:
+    void insert(trieNode *root, string &str)
+    {
+        for (auto &ch : str)
+        {
+            if (!root->next[ch - 'a']) root->next[ch - 'a'] = new trieNode();
+            root = root->next[ch - 'a'];
+        }
+        root->isWord = true;
+    }
     void destory(trieNode *root)
     {
-        if(!root)
-            return;
-        for (trieNode *t : root->next)
-            if(t) destory(t);
+        if (!root) return;
+        for (auto &e : root->next)
+            if (e) destory(e);
         delete root;
     }
-public:
-    trie():root(new trieNode()){}
-    ~trie(){ destory(root); }
-    void insert(const string &s)
+    
+    void findWords(vector<vector<char>>& board, int r, int c, trieNode *cur, string &path, vector<string> &ret)
     {
-        trieNode *t = root;
-        for(auto &c : s)
+        if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size()) return;
+        if (board[r][c] == '\0' || !cur->next[board[r][c] - 'a']) return;
+        
+        cur = cur->next[board[r][c] - 'a'];
+        path += board[r][c];
+        char save = board[r][c];
+        board[r][c] = '\0';
+        
+        if (cur->isWord) 
         {
-            if(!t->next[c - 'a'])
-                t->next[c - 'a'] = new trieNode();
-            t = t->next[c - 'a'];
+            ret.push_back(path);
+            cur->isWord = false;
         }
-        t->isWord = true;
-    }
-};
 
-class Solution
-{
+        findWords(board, r + 1, c, cur, path, ret);
+        findWords(board, r - 1, c, cur, path, ret);
+        findWords(board, r, c + 1, cur, path, ret);
+        findWords(board, r, c - 1, cur, path, ret);
+        
+        path.pop_back();
+        board[r][c] = save;
+    }
 public:
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words)
     {
-        if(board.empty() || board[0].empty() || words.empty()) return {};
-        
-        trie myTrie;
-        for (auto &w : words)
-            myTrie.insert(w);
-        
+        if (words.empty() || words[0].empty() || board.empty() || board[0].empty()) return {};
+        root = new trieNode();
+        for (auto &s : words)
+            insert(root, s);
+            
+        string path = "";
         vector<string> ret;
-        string s = "";
         
         for (int i = 0; i < board.size(); ++i)
             for (int j = 0; j < board[0].size(); ++j)
-                find(board, myTrie.root, i, j, s, ret);
+                findWords(board, i, j, root, path, ret);
         
+        destory(root);
         return ret;
     }
-    
-    //to mannually control the search process is more efficient
-    //  than implementing a search method within the trie
-    void find(vector<vector<char>>& board, trieNode* t, int r, int c, string &s_sofar, vector<string> &ret)
-    {
-        if(!t || r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] == '\0')
-            return;
-        
-        if(!t->next[board[r][c] - 'a'])
-            return;
-        
-        t = t->next[board[r][c] - 'a'];
-        
-        s_sofar += board[r][c];
-        if(t->isWord)
-        {
-            ret.push_back(s_sofar);
-            t->isWord = false;  //avoid duplicates
-        }
-        
-        char visit = board[r][c];
-        board[r][c] = '\0';
-        
-        find(board, t, r + 1, c, s_sofar, ret);
-        find(board, t, r - 1, c, s_sofar, ret);
-        find(board, t, r, c + 1, s_sofar, ret);
-        find(board, t, r, c - 1, s_sofar, ret);
-        
-        s_sofar.pop_back();
-        board[r][c] = visit;
-    }    
+private:
+    trieNode *root;
 };
