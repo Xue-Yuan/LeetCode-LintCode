@@ -63,7 +63,7 @@ public:
     }
 };
 
-//Simplified version, without exponent
+//This is not solution2. Just a simplified version, without exponent.
 class Solution2
 {
 public:
@@ -73,7 +73,7 @@ public:
         vector<vector<int>> states
         {// inv  dig dot sig spa
             {-1,  1,  2,  4,  0}, //0 initial
-            {-1,  1,  3, -1,  5}, //1 digits no dots
+            {-1,  1,  3, -1,  5}, //1 digits no dots, with or without signs in the beginning.
             {-1,  3, -1, -1, -1}, //2 just dot
             {-1,  3, -1, -1,  5}, //3 dot & digits
             {-1,  1,  2, -1, -1}, //4 just sign
@@ -87,7 +87,7 @@ public:
             if (c == '+' || c == '-') input = SIGN;
             else if (c == '.') input = DOT;
             else if (c == ' ') input = SPACE;
-            else if (c <= '9' && c >= '0') input = DIGIT;
+            else if (isdigit(c)) input = DIGIT;
             state = states[state][input];
             if (state == -1) return false;
         } 
