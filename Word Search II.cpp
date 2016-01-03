@@ -21,7 +21,7 @@
 
 /*
              +---------+      +---------+      +---------+      +---------+
-    root --> |  [e]    | ---> |  [a]    | ---> |  [t]    | ---> |  [t]    |
+    root --> |  [e]    | ---> |  [a]    | ---> |  [t]    | ---> |  []    |
              |isWord: F|      |isWord: F|      |isWord: F|      |isWord: T|
              +---------+      +---------+      +---------+      +---------+
 */
@@ -61,7 +61,7 @@ private:
         path += board[r][c];
         char save = board[r][c];
         board[r][c] = '\0';
-        
+
         if (cur->isWord) 
         {
             ret.push_back(path);
