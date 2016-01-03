@@ -62,3 +62,35 @@ public:
         return state == 1 || state == 3 || state == 6 || state == 8;
     }
 };
+
+//Simplified version, without exponent
+class Solution2
+{
+public:
+    bool validNumber(const string &str)
+    {
+        enum inputType{INVALID, DIGIT, DOT, SIGN, SPACE};
+        vector<vector<int>> states
+        {// inv  dig dot sig spa
+            {-1,  1,  2,  4,  0}, //0 initial
+            {-1,  1,  3, -1,  5}, //1 digits no dots
+            {-1,  3, -1, -1, -1}, //2 just dot
+            {-1,  3, -1, -1,  5}, //3 dot & digits
+            {-1,  1,  2, -1, -1}, //4 just sign
+            {-1, -1, -1, -1,  5}  //5 trailing spaces
+        };
+
+        int state = 0;
+        for (auto &c : str)
+        {
+            inputType input = INVALID;
+            if (c == '+' || c == '-') input = SIGN;
+            else if (c == '.') input = DOT;
+            else if (c == ' ') input = SPACE;
+            else if (c <= '9' && c >= '0') input = DIGIT;
+            state = states[state][input];
+            if (state == -1) return false;
+        } 
+        return state == 1 || state == 3 || state == 5;
+    }
+};
