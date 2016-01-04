@@ -21,7 +21,7 @@
 
 /*
              +---------+      +---------+      +---------+      +---------+
-    root --> |  [e]    | ---> |  [a]    | ---> |  [t]    | ---> |  []    |
+    root --> |  [e]    | ---> |  [a]    | ---> |  [t]    | ---> |  []     |
              |isWord: F|      |isWord: F|      |isWord: F|      |isWord: T|
              +---------+      +---------+      +---------+      +---------+
 */
@@ -32,7 +32,7 @@ struct trieNode
     trieNode(): next(26, nullptr), isWord(false){}
 };
 
-class Solution 
+class Solution
 {
 private:
     void insert(trieNode *root, string &str)
@@ -97,3 +97,43 @@ public:
 private:
     trieNode *root;
 };
+
+//This unordered_set solution gives out the Time-Limit-Exceeded problem.
+class Solution2 
+{
+public:
+    vector<string> findWords(vector<vector<char>>& board, unordered_set<string>& words)
+    {
+        if (board.empty() || board[0].empty() || words.empty()) return {};
+        string so_far = "";
+        vector<string> ret;
+        for (int i = 0; i < board.size(); ++i)
+            for (int j = 0; j < board[0].size(); ++j)
+                findWords(board, i, j, words, so_far, ret);
+
+        return ret;
+    }
+
+    void findWords(vector<vector<char>> &board, int r, int c, unordered_set<string> &words, string &so_far, vector<string> &ret)
+    {
+        if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size()) return;
+        if (board[r][c] == '\0') return;
+
+        so_far += board[r][c];
+        if (words.find(so_far) != words.end())
+        {
+            words.erase(so_far);
+            ret.push_back(so_far);
+        }
+
+        char save = board[r][c];
+        board[r][c] = '\0';
+        findWords(board, r + 1, c, words, so_far, ret);
+        findWords(board, r - 1, c, words, so_far, ret);
+        findWords(board, r, c + 1, words, so_far, ret);
+        findWords(board, r, c - 1, words, so_far, ret);
+        board[r][c] = save;
+        so_far.pop_back();
+    }
+};
+
