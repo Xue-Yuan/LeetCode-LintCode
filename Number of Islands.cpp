@@ -27,7 +27,8 @@ public:
     int numIslands(vector<vector<char>>& grid)
     {
         if(grid.empty() || grid[0].empty()) return 0;
-            int cnt = 0;
+        
+        int cnt = 0;
         for(int i = 0; i < grid.size(); ++i)
         {
             for(int j = 0; j < grid[0].size(); ++j)
