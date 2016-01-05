@@ -71,7 +71,7 @@ public:
                 v[len++] = nums[i];
             else
             {
-                auto itr = upper_bound(v.begin(), v.begin() + len, nums[i] - 1);
+                auto itr = lower_bound(v.begin(), v.begin() + len, nums[i]);
                 *itr = nums[i];
             }
         }
@@ -82,14 +82,15 @@ public:
 //https://leetcode.com/discuss/67554/9-lines-c-code-with-o-nlogn-complexity
 class Solution3
 {
+public:
     int lengthOfLIS(vector<int>& nums) 
     {
         vector<int> res;
-        for(int i = 0; i < nums.size(); i++) 
+        for (auto &e : nums)
         {
-            auto it = lower_bound(res.begin(), res.end(), nums[i]);
-            if(it == res.end()) res.push_back(nums[i]);
-            else *it = nums[i];
+            auto itr = lower_bound(res.begin(), res.end(), e);
+            if (itr == res.end()) res.push_back(e);
+            else *itr = e;
         }
         return res.size();
     }
