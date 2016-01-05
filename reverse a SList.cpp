@@ -15,55 +15,51 @@
 
 using namespace std;
 
-struct listNode
+struct ListNode
 {
     int val;
-    listNode *next;
-    listNode(int x):val(x), next(nullptr){}
+    ListNode *next;
+    ListNode(int x):val(x), next(nullptr){}
 };
 
-listNode *reverse(listNode *p, listNode *c, listNode *n)
+class Solution
 {
-    c->next = p;
-    if(!n) return c;
-    return reverse(c, n, n->next);
-}
+private:
+    ListNode* reverseList(ListNode *reversed, ListNode *remaining)
+    {
+        if (!remaining) return reversed;
+        ListNode *tmp = remaining->next;
+        remaining->next = reversed;
+        return reverseList(remaining, tmp);
+    }
+public:
+    ListNode* reverseList(ListNode *head)
+    {
+        return reverseList(nullptr, head);
+    }
+};
 
-listNode *reverse(listNode *head)
-{
-    if(!head) return nullptr;
-    if(!head->next) return head;
-    auto ret = reverse(head, head->next, head->next->next);
-    head->next = nullptr;
-    return ret;    
-}
-
-/************  with a tail *******************/
-listNode *reverse(listNode *p, listNode *c, listNode *n, listNode *tail)
-{
-    c->next = p;
-    if(n == tail) return c;
-    return reverse(c, n, n->next, tail);
-}
-
-//not inclusive
-listNode *reverse(listNode *head, listNode *tail)
-{
-    if(!head || !head->next) return head;
-    auto ret = reverse(head, head->next, head->next->next, tail);
-    head->next = tail;
-    return ret;
-}
-/*********************************************/
-
-//Non-recursive solution
-class Solution 
+class Solution1
 {
 public:
-    listNode* reverseList(listNode* head) 
+    ListNode *reverseList(ListNode *head)
+    {
+        if (!head || !head->next) return head;
+        ListNode *ret = reverseList(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return ret;
+    } 
+};
+
+//Non-recursive solution
+class Solution2 
+{
+public:
+    ListNode* reverseList(ListNode* head) 
     {
         if(!head || !head->next) return head;
-        listNode *p = head, *c = p->next, *n = c->next;
+        ListNode *p = head, *c = p->next, *n = c->next;
         p->next = nullptr;
         
         while(c)
@@ -75,16 +71,21 @@ public:
         }
         return p;
     }
-    listNode *reverseList2(listNode* head)
+};
+
+class Solution3
+{
+public:
+    ListNode *reverseList(ListNode* head)
     {
         if(!head || !head->next) return head;
-        listNode prehead(0);
+        ListNode prehead(0);
         prehead.next = head;
-        listNode *pre = &prehead;
-        listNode *pstart = prehead.next;
+        ListNode *pre = &prehead;
+        ListNode *pstart = prehead.next;
         while(pstart->next)
         {
-            listNode *p = pstart->next;
+            ListNode *p = pstart->next;
             pstart->next = p->next;
             p->next = pre->next;
             pre->next = p;
@@ -96,9 +97,9 @@ public:
 int main()
 {
     // Solution so;
-    listNode *A[10];
+    ListNode *A[10];
     for(int i = 0; i < 10; ++i)
-        A[i] = new listNode(i);
+        A[i] = new ListNode(i);
     for(int i = 0; i < 9; ++i)
         A[i]->next = A[i+1];
     Solution so;
