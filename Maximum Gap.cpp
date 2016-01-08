@@ -16,6 +16,9 @@
     The time complexity is O(log(max) *(N + base)). For int, log(max)
         is const.
 */
+/*
+    Radix sort.
+*/
 class Solution
 {
 public:
@@ -23,12 +26,11 @@ public:
     {
         if(nums.size() < 2) return 0;
         
-        int ma = nums[0];
-        for (auto &e : nums)
-            ma = max(e, ma);
+        int ma = *max_element(nums.begin(), nums.end());
         
         const int base = 10;
         int t = 1;
+        vector<int> tmp(nums.size());
         while (ma / t)
         {
             vector<int> count(base, 0);
@@ -36,9 +38,8 @@ public:
                 count[e / t % 10]++;
             for (int i = 0; i < base - 1; ++i)
                 count[i + 1] += count[i];
-            vector<int> tmp(nums.size(), 0);
-            for (int i = (int)nums.size() - 1; i >= 0; --i)
-                tmp[--count[nums[i] / t % 10]] = nums[i];
+            for (auto itr = nums.rbegin(); itr != nums.rend(); ++itr)
+                tmp[--count[*itr / t % 10]] = *itr;
             swap(nums, tmp);
             t *= 10;
         }
@@ -76,6 +77,10 @@ public:
         
         for (auto &e : nums)
         {
+            /*
+            delta = (ma + 1 - mi) / (n + 1)
+            idx = (e - mi) / delta
+            */
             int idx = int((long long)(e - mi) * (n + 1) / (ma + 1 - mi));   //(ma + 1 - mi) so the max_element will be in the last bucket.
             bucket[idx].second = max(e, bucket[idx].second);
             if (bucket[idx].first == -1)
