@@ -1,2 +1,3 @@
-# LeetCode
-This is my solutions for leetcode. https://leetcode.com/problemset/algorithms/
+# LeetCode & LintCode
+https://leetcode.com/problemset/algorithms/
+http://www.lintcode.com/en/ladder/
