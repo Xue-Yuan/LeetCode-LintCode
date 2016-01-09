@@ -36,3 +36,59 @@ public:
         return dp[amount];
     }
 };
+
+//This would be faster.
+class Solution2
+{
+public:
+    int coinChange(vector<int>& coins, int amount) 
+    {
+        vector<int> dp(amount + 1, -1);
+        dp[0] = 0;
+        
+        for (int i = 0; i <= amount; ++i)
+        {
+            if (dp[i] < 0) continue;
+            for (int &c : coins)
+                if (i + c <= amount && (dp[i + c] < 0 || dp[i + c] > dp[i] + 1))
+                    dp[i + c] = dp[i] + 1; 
+                    
+        }
+        return dp[amount];
+    }
+};
+
+//BFS
+class Solution3
+{
+public:
+    int coinChange(vector<int>& coins, int amount) 
+    {
+        if (amount == 0) return 0;
+        queue<int> cur, nxt;
+        vector<bool> visited(amount + 1, false);
+        cur.push(0);
+        int cnt = 0;
+        bool exist = true;
+        while (exist)
+        {
+            ++cnt;
+            exist = false;
+            while (!cur.empty())
+            {
+                int tmp = cur.front(); cur.pop();
+                for (auto &c : coins) 
+                {
+                    int now = tmp + c;
+                    if (now > amount || visited[now]) continue;
+                    if (now == amount) return cnt;
+                    exist = true;
+                    nxt.push(now);
+                    visited[now] = true;
+                }
+            }
+            swap(cur, nxt);
+        }
+        return -1;
+    }
+};
