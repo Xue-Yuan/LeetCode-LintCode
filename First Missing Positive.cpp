@@ -17,10 +17,11 @@ public:
     {
         if (nums.empty()) return 1;
         
-        int idx = 0;
-        
+        int idx = 0;        
         while (idx < nums.size())
         {
+            //nums[idx] != idx + 1 and nums[idx] != nums[nums[idx] - 1]
+            //  we only have to keep the latter.
             while (nums[idx] != idx + 1 && nums[idx] <= nums.size() && nums[idx] >= 1 && nums[idx] != nums[nums[idx] - 1])
                 swap(nums[idx], nums[nums[idx] - 1]);
             idx++;

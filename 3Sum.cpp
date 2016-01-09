@@ -15,37 +15,34 @@
             (-1, -1, 2)
 */
 
-class Solution
+class Solution 
 {
-public:
-    vector<vector<int>> threeSum(vector<int>& nums)
+public:    
+    /**
+     * @param numbers : Give an array numbers of n integer
+     * @return : Find all unique triplets in the array which gives the sum of zero.
+     */
+    vector<vector<int> > threeSum(vector<int> &nums) 
     {
+        // write your code here
         if (nums.size() < 3) return {};
-        
         sort(nums.begin(), nums.end());
-        
         vector<vector<int>> ret;
-        for (int i = 0; i <= nums.size() - 3; ++i)
+        for (int i = 0; i < nums.size(); ++i)
         {
             if (i != 0 && nums[i] == nums[i - 1]) continue;
-            int remain = 0 - nums[i];
-            int left = i + 1, right = (int)nums.size() - 1;
-            while (left < right)
+            for (int left = i + 1, right = (int)nums.size() - 1; left < right;)
             {
-                if (nums[left] + nums[right] < remain)
-                    ++left;
-                else if (nums[left] + nums[right] > remain)
-                    --right;
-                else
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum > 0) right--;
+                else if (sum < 0) left++;
+                else 
                 {
-                    ret.push_back({nums[i], nums[left], nums[right]});
-                    while(left < right && nums[left + 1] == nums[left]) ++left;
-                    while(left < right && nums[right - 1] == nums[right]) --right;
-                    ++left;
-                    --right;
+                    ret.push_back({nums[i], nums[left++], nums[right--]});
+                    while (left < right && nums[left] == nums[left - 1]) left++;
                 }
             }
         }
-        return ret;        
+        return ret;
     }
 };
