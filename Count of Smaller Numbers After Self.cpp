@@ -76,17 +76,14 @@ private:
     int lower_bound(const vector<int> &vec, const int &target)
     {
         if (vec.empty()) return 0;
-        int b = 0, e = (int)vec.size() - 1;
+        int b = 0, e = (int)vec.size();
         while (b < e)
         {
             int m = b + (e - b) / 2;
-            if (vec[m] < target)
-                b = m + 1;
-            else
-                e = m;
-        }
-        
-        return (vec[b] >= target ? b : e + 1);
+            if (vec[m] < target) b = m + 1;
+            else e = m;
+        }           
+        return b;
     }
 public:
     vector<int> countSmaller(vector<int>& nums)
