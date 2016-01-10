@@ -25,8 +25,9 @@ public:
         {
             int m = b + (e - b) / 2;
             if (A[m] == target) return m;
-            if (A[b] <= A[m])
+            if (A[b] < A[m])
             {
+                //instead of A[b] < target
                 if (A[b] <= target && target < A[m]) e = m - 1;
                 else b = m + 1;
             }
