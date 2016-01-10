@@ -15,34 +15,27 @@
 class Solution 
 {
 public:
-    int search(vector<int>& nums, int target)
+    int search(vector<int> &A, int target) 
     {
-        int mid = findMin(nums, 0, nums.size() - 1);
-        int idx1 = search(nums, target, 0, mid-1);
-        int idx2 = search(nums, target, mid, nums.size() - 1);
-        return (idx1 > idx2) ? idx1 : idx2;
-    }
-    int findMin(vector<int> &nums, int beg, int end)
-    {
-        if(beg > end) return 0;
-        if(beg == end) return beg;
-        if(beg + 1 == end) return (nums[beg] < nums[end]) ? beg : end;
-        int mid = beg + (end - beg) / 2;
-        if(nums[beg] < nums[end])
-            return beg;
-        if(nums[beg] > nums[mid])
-            return findMin(nums, beg, mid);
-        if(nums[mid] > nums[end])
-            return findMin(nums, mid + 1, end);
-    }
-private:
-    int search(vector<int> &nums, int t, int b, int e)
-    {
-        if(b > e) return -1;
-        if(b == e) return (nums[b] == t) ? b : -1;
-        int mid = b + (e - b) / 2;
-        if(t > nums[mid]) return search(nums, t, mid+1, e);
-        if(t < nums[mid]) return search(nums, t, b, mid-1);
-        return mid;
+        // write your code here
+        if (A.empty()) return -1;
+        
+        int b = 0, e = A.size() - 1;
+        while (b <= e)
+        {
+            int m = b + (e - b) / 2;
+            if (A[m] == target) return m;
+            if (A[b] <= A[m])
+            {
+                if (A[b] <= target && target < A[m]) e = m - 1;
+                else b = m + 1;
+            }
+            else
+            {
+                if (A[m] < target && target <= A[e]) b = m + 1;
+                else e = m - 1;
+            }
+        }
+        return -1;
     }
 };

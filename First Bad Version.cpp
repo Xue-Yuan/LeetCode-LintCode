@@ -18,24 +18,19 @@
 // Forward declaration of isBadVersion API.
 bool isBadVersion(int version);
 
+//Just another lower_bound search.
 class Solution 
 {
 public:
     int firstBadVersion(int n) 
     {
-        return lower_bound(1, n);
-    }
-    int lower_bound(int low, int high)
-    {        
-        while(low < high)
+        int b = 1, e = n;
+        while (b < e)
         {
-        	int mid = low + (high - low) / 2;
-            if(!isBadVersion(mid))
-                low = mid + 1;
-            else
-                high = mid;
+            int m = b + (e - b) / 2;
+            if (!isBadVersion(m)) b = m + 1;
+            else e = m;
         }
-        if(isBadVersion(low)) return low;
-        return -1;
+        return b;
     }
 };
