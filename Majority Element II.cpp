@@ -13,7 +13,7 @@ public:
         int n = nums.size();
         if(n < 2) return nums;
         
-        int can1 = 0, can2 = 1, cnt1 = 0, cnt2 = 0;
+        int can1, can2, cnt1 = 0, cnt2 = 0;
         for(auto &i : nums)
         {
             if(i == can1 || i == can2)
