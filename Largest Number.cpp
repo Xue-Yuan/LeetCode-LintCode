@@ -26,7 +26,8 @@ public:
     }
 };
 
-class Solution {
+class Solution2 
+{
 private:
     struct myGreater
     {

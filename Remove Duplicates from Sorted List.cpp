@@ -21,20 +21,18 @@ class Solution
 public:
     ListNode* deleteDuplicates(ListNode* head) 
     {
-        if(!head || !head->next) return head;
-        ListNode *pre = head, *cur = head->next;
-        
-        while(cur)
+        ListNode ph(0), *pre = &ph;
+        pre->next = head;
+        while (pre->next)
         {
-            while(cur && pre->val == cur->val)
+            ListNode *cur = pre->next;
+            if (cur->next && cur->val == cur->next->val)
             {
                 pre->next = cur->next;
                 delete cur;
-                cur = pre->next;
             }
-            pre = cur;
-            if(cur) cur = cur->next;
+            else pre = cur;
         }
-        return head;
+        return ph.next;
     }
 };
