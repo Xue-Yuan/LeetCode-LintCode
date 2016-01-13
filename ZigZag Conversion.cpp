@@ -23,40 +23,45 @@
        
     The first line and the last line need to be treated specially.
 */
-class Solution 
+class Solution
 {
 public:
     string convert(string s, int numRows) 
     {
-        if(numRows == 0) return "";
-        if(numRows == 1) return s;
-        
-        int base0 = numRows - 1, base1 = numRows - 1, base2 = 2*numRows - 2;
-        string res = "";
-        for(int i = 0; i < numRows; ++i)
+        if (numRows < 2 || s.size() < 2) return s;
+        string str;
+        int step = 2 * (numRows - 1);
+        for (int i = 0; i < numRows; i++)
         {
-            base1 = numRows - 1;
-            int n = i;
-            while(n < s.size())
+            for (int j = 0; j < s.size() + step; j += step)
             {
-                res += s[n];
-                if(i % (2 * (numRows - 1)) == 0)
-                {
-                    n = base0 * 2 - n;
-                    base0 += 2 * (numRows - 1);
-                }
-                else if(i % (numRows - 1) == 0)
-                {
-                    n = base2 * 2 - n;
-                    base2 += 2 * (numRows - 1);
-                }
-                else
-                {
-                    n = base1 * 2 - n;
-                    base1 += (numRows - 1);
-                }
-            }   
+                if (j - i >= 0 && j - i < s.size())
+                    str += s[j - i];
+                if (i == 0 || i == numRows - 1) continue;    //avoid double counting in the boundary.
+                if (j + i < s.size())
+                    str += s[j + i];
+            }
         }
+        return str;
+    }
+};
+
+//straightforward
+class Solution2
+{
+public:
+    string convert(string s, int numRows) 
+    {
+        vector<string> zigzag(numRows);
+        for (int i = 0; i < s.size();)
+        {
+            for (int j = 0; j < numRows && i < s.size(); ++j, ++i)
+                zigzag[j] += s[i];
+            for (int j = numRows - 2; j >= 1 && i < s.size(); --j, ++i)
+                zigzag[j] += s[i];
+        }
+        string res{""};
+        for (auto &s : zigzag) res += s;
         return res;
     }
 };

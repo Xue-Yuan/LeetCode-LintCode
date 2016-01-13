@@ -20,9 +20,6 @@
         Say we have 123, then
         (123) = 1 * (1 ~ 99) + (hundred digit from (100 ~ 123)) + (23)
 */
-
-// An insane solution is here:
-// https://leetcode.com/discuss/44281/4-lines-o-log-n-c-java-python
 class Solution 
 {
 private:
@@ -75,3 +72,18 @@ public:
     }
 };
 
+// Taken from https://leetcode.com/discuss/44281/4-lines-o-log-n-c-java-python
+class Solution2
+{
+public:
+    int countDigitOne(int n) 
+    {
+        int ones = 0;
+        for (long long m = 1; m <= n; m *= 10) 
+        {
+            int a = n/m, b = n%m;
+            ones += (a + 8) / 10 * m + (a % 10 == 1) * (b + 1);
+        }
+        return ones;
+    }
+};

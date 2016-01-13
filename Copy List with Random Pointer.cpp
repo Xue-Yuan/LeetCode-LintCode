@@ -19,34 +19,50 @@ class Solution
 public:
     RandomListNode *copyRandomList(RandomListNode *head)
     {
-        if (!head) return nullptr;
-        
-        RandomListNode ph(0), *pre = &ph, *cur = head;
         unordered_map<RandomListNode *, RandomListNode *> m;
         m[nullptr] = nullptr;
         
-        while(cur)
+        RandomListNode ph(0), *pre = &ph;
+        while (head)
         {
-            //next
-            if (m.find(cur) == m.end())
-            {
-                pre->next = new RandomListNode(cur->label);
-                m[cur] = pre->next;
-            }
-            else
-                pre->next = m[cur];
-            //random
-            if (m.find(cur->random) == m.end())
-            {
-                pre->next->random = new RandomListNode(cur->random->label);
-                m[cur->random] = pre->next->random;
-            }
-            else
-                pre->next->random = m[cur->random];
-            
+            if (m.find(head) == m.end())
+                m[head] = new RandomListNode(head->label);
+            if (m.find(head->random) == m.end())
+                m[head->random] = new RandomListNode(head->random->label);
+            pre->next = m[head];
+            pre->next->random = m[head->random];
+            head = head->next;
             pre = pre->next;
-            cur = cur->next;
         }
+        return ph.next;
+    }
+};
+
+//splice the new one with the original.
+class Solution2
+{
+    RandomListNode *copyRandomList_1(RandomListNode *head) 
+    {
+        if (!head) return nullptr;
+        
+        for (RandomListNode *cur = head; cur; cur = cur->next->next)
+        {
+            RandomListNode *tmp = new RandomListNode(cur->label);
+            tmp->next = cur->next;
+            cur->next = tmp;
+        }
+        
+        for (RandomListNode *cur = head; cur; cur = cur->next->next)
+            if (cur->random) cur->next->random = cur->random->next;
+            
+        RandomListNode ph(0), *pre = &ph;
+        for (RandomListNode *cur = head; cur; cur = cur->next)
+        {
+            pre->next = cur->next;
+            pre = pre->next;
+            cur->next = pre->next;
+        }
+        
         return ph.next;
     }
 };
