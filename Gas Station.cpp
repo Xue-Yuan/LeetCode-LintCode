@@ -28,7 +28,6 @@ public:
                 remain = 0;
             }
         }
-        
-        return balance >= 0 ? ret % int(gas.size()) : -1;
+        return balance < 0 ? -1 : ret;
     }
 };
