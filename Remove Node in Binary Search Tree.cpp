@@ -145,33 +145,21 @@ public:
         if (!cur) return cur;
         if (value == cur->val)
         {
-            //a leaf
-            if (!cur->left && !cur->right) 
-            {   
-                delete cur;
-                return nullptr;
-            }
-            //only right subtree
-            else if (!cur->left)
-            {
-                TreeNode *tmp = cur->right;
-                delete cur;
-                return tmp;
-            }
-            //only left subtree
-            else if (!cur->right)
-            {
-                TreeNode *tmp = cur->left;
-                delete cur;
-                return tmp;
-            }
-            else
+            if (cur->left && cur->right)
             {
                 TreeNode *tmp = cur->left;
                 while (tmp->right) tmp = tmp->right;
                 cur->val = tmp->val;
                 cur->left = removeNode(cur->left, tmp->val);
+                return cur;
             }
+            TreeNode *tmp = nullptr;
+            //only right subtree
+            if (!cur->left && cur->right) tmp = cur->right;
+            //only left subtree
+            else if (!cur->right && cur->left) tmp = cur->left;
+            delete cur; //including just a leaf
+            return tmp;
         }
         else if (value < cur->val) cur->left = removeNode(cur->left, value);
         else cur->right = removeNode(cur->right, value);  
