@@ -27,42 +27,25 @@ public:
         }
         //not exist
         if (!cur) return root;  
-        //This node is a leaf.
-        if (!cur->left && !cur->right)  
-        {
-            if (pre->left == cur) pre->left = nullptr;
-            else pre->right = nullptr;
-            delete cur;
-        }
-        //This node only has a right subtree.
-        //  Make the right substree of cur be the subtree of pre.
-        else if (!cur->left)
-        {
-            if (pre->left == cur) pre->left = cur->right;
-            else pre->right = cur->right;
-            delete cur;
-        }
-        //This node only has a left subtree.
-        //  Make the left subtree of cur be the subtree of pre.
-        else if (!cur->right)
-        {
-            if (pre->left == cur) pre->left = cur->left;
-            else pre->right = cur->left;
-            delete cur;
-        }
         //This node has both a left and right subtree.
         //  Make the left subtree of cur be the subtree of pre,
         //  and the right subtree of cur be the right subtree of
         //  the right-most node of left subtree.
-        else 
+        if (cur->left && cur->right) 
         {
             if (pre->left == cur) pre->left = cur->left;
             else pre->right = cur->left;
             TreeNode *tmp = cur->left;
             while (tmp->right) tmp = tmp->right;
             tmp->right = cur->right;
-            delete cur;
         }
+        else
+        {
+            TreeNode *tmp = cur->left ? cur->left : cur->right;
+            if (pre->left == cur) pre->left = tmp;
+            else pre->right = tmp;
+        }
+        delete cur;
         return ph.right;
     }
 };
@@ -90,41 +73,25 @@ public:
             else if (value > cur->val) cur = cur->right;
         }
         //not exist
-        if (!cur) return root;  
-        //This node is a leaf.
-        if (!cur->left && !cur->right)  
-        {
-            if (pre->left == cur) pre->left = nullptr;
-            else pre->right = nullptr;
-            delete cur;
-        }
-        //This node only has a right subtree.
-        //  Make the right substree of cur be the subtree of pre.
-        else if (!cur->left)
-        {
-            if (pre->left == cur) pre->left = cur->right;
-            else pre->right = cur->right;
-            delete cur;
-        }
-        //This node only has a left subtree.
-        //  Make the left subtree of cur be the subtree of pre.
-        else if (!cur->right)
-        {
-            if (pre->left == cur) pre->left = cur->left;
-            else pre->right = cur->left;
-            delete cur;
-        }
+        if (!cur) return root; 
         //This node has both a left and right subtree.
         //  We can also replace the cur with the largest from
         //  the left subtree of cur (or the smallest from the
         //  right subtree), then delete the largest (or smallest)
         //  node. That node is guaranteed to have at most one subtree.
-        else 
+        if (cur->left && cur->right) 
         {
             TreeNode *tmp = cur->left;
             while (tmp->right) tmp = tmp->right;
             cur->val = tmp->val;
             cur->left = removeNode(cur->left, tmp->val);
+        }
+        else
+        { 
+            TreeNode *tmp = cur->left ? cur->left : cur->right;
+            if (pre->left == cur) pre->left = tmp;
+            else pre->right = tmp;
+            delete cur;
         }
         return ph.right;
     }
@@ -139,30 +106,26 @@ public:
      * @param value: Remove the node with given value.
      * @return: The root of the binary search tree after removal.
      */
-    TreeNode* removeNode(TreeNode* cur, int value) 
+    TreeNode* removeNode(TreeNode* root, int value) 
     {
         // write your code here
-        if (!cur) return cur;
-        if (value == cur->val)
+        if (!root) return root;
+        if (value == root->val)
         {
-            if (cur->left && cur->right)
+            if (root->left && root->right)
             {
-                TreeNode *tmp = cur->left;
+                TreeNode *tmp = root->left;
                 while (tmp->right) tmp = tmp->right;
-                cur->val = tmp->val;
-                cur->left = removeNode(cur->left, tmp->val);
-                return cur;
+                root->val = tmp->val;
+                root->left = removeNode(root->left, tmp->val);
+                return root;
             }
-            TreeNode *tmp = nullptr;
-            //only right subtree
-            if (!cur->left && cur->right) tmp = cur->right;
-            //only left subtree
-            else if (!cur->right && cur->left) tmp = cur->left;
-            delete cur; //including just a leaf
+            TreeNode *tmp = root->left ? root->left : root->right;
+            delete root; //including just a leaf
             return tmp;
         }
-        else if (value < cur->val) cur->left = removeNode(cur->left, value);
-        else cur->right = removeNode(cur->right, value);  
-        return cur;
+        else if (value < root->val) root->left = removeNode(root->left, value);
+        else root->right = removeNode(root->right, value);  
+        return root;
     }
 };
