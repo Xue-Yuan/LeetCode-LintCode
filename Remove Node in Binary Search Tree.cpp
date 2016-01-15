@@ -30,7 +30,7 @@ public:
         //This node has both a left and right subtree.
         //  Make the left subtree of cur be the subtree of pre,
         //  and the right subtree of cur be the right subtree of
-        //  the right-most node of left subtree.
+        //  the right-most node of the left subtree.
         if (cur->left && cur->right) 
         {
             if (pre->left == cur) pre->left = cur->left;
