@@ -84,23 +84,21 @@ private:
 };
 
 //https://github.com/leetcoders/LeetCode/blob/master/FlattenBinaryTreetoLinkedList.h
-class Solution3
+class Solution3 
 {
 public:
-    void flatten(TreeNode *root) 
+    void flatten(TreeNode* root) 
     {
-        if(root==nullptr) return;
-        stack<TreeNode*> s;
-        s.push(root);
-        while(!s.empty())
+        if (!root) return;
+        stack<TreeNode *> stk;
+        stk.push(root);
+        while (!stk.empty())
         {
-            auto p=s.top();
-            s.pop();
-            if(p->right) s.push(p->right);
-            if(p->left) s.push(p->left);
-            p->left = nullptr;
-            if(!s.empty()) p->right = s.top();
-            else p->right = nullptr;
+            TreeNode *cur = stk.top(); stk.pop();
+            if (cur->right) stk.push(cur->right);
+            if (cur->left) stk.push(cur->left);
+            cur->right = stk.empty() ? nullptr : stk.top();
+            cur->left = nullptr;
         }
     }
 };

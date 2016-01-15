@@ -25,7 +25,7 @@
 class Solution
 {
 private:
-    bool isValidBST(TreeNode*root, TreeNode *minNode, TreeNode *maxNode)
+    bool isValidBST(TreeNode *root, TreeNode *minNode, TreeNode *maxNode)
     {
         if (!root) return true;
         if (minNode && root->val <= minNode->val || maxNode && root->val >= maxNode->val) return false;
@@ -57,4 +57,3 @@ public:
         return inorder(node->right, prev);
     }
 };
-
