@@ -53,7 +53,7 @@ public:
         subsets(nums, 0, path, ret);
         return ret;
     }
-    
+private:    
     void subsets(vector<int> &nums, int cur, vector<int> &path, vector<vector<int>> &ret)
     {
         if (cur == nums.size())
@@ -95,14 +95,14 @@ private:
     }
 };
 
-class Solution
+class Solution4
 {
 public:
     vector<vector<int> > subsets(vector<int> &S) 
     {
         int sz = S.size();
-        vector<vector<int>> res;
-        res.reserve(1 << s.size());
+        vector<vector<int>> res{{}};
+        res.reserve(1 << S.size());
         sort(S.begin(), S.end());
         for (int i = 0; i < S.size(); ++i) 
         {
@@ -116,4 +116,3 @@ public:
         return res;
     }
 };
-

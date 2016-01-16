@@ -22,8 +22,7 @@ public:
             for(int i = 0; i < nums.size() - 1; ++i)
                 if(nums[i] < nums[i + 1])
                     m = i;
-            if(m == -1)
-            	break;
+            if(m == -1)	break;
             int l = -1;
             for(int i = m + 1; i < nums.size(); ++i)
                 if(nums[i] > nums[m])
@@ -56,8 +55,41 @@ private:
 public:
     vector<vector<int> > permute(vector<int> &nums) 
     {
+        if (nums.empty()) return {};
         vector<vector<int>> res;
         recursion(nums, 0, res);
         return res;
     }
+};
+
+class Solution3
+{
+private:
+    void permuteRe(const vector<int> &num, vector<bool> &avail, vector<int> &pum)
+    {
+        if (pum.size() == num.size())
+        {
+            res.push_back(pum);
+            return;
+        }
+        for (int i = 0; i < num.size(); ++i)
+            if (avail[i])
+            {
+                avail[i] = false;
+                pum.push_back(num[i]);
+                permuteRe(num, avail, pum);
+                pum.pop_back();
+                avail[i] = true;
+            }
+    }
+public:
+    vector<vector<int>> permute(vector<int> &num) 
+    {
+        vector<bool> avail(num.size(), true);
+        vector<int> pum;
+        permuteRe(num, avail, pum);
+        return res;
+    }
+private:
+    vector<vector<int>> res;
 };

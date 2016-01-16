@@ -73,8 +73,7 @@ public:
         m[node] = new UndirectedGraphNode(node->label);
         for(auto &n : node->neighbors)
         {
-            if(m.find(n) == m.end())
-                cloneGraph(n, m);
+            if(m.find(n) == m.end()) cloneGraph(n, m);
             m[node]->neighbors.push_back(m[n]);
         }
     }
@@ -95,9 +94,7 @@ public:
         {
             hash[node] = new UndirectedGraphNode(node -> label);
             for (auto &n : node->neighbors)
-            {
                 (hash[node]->neighbors).push_back( cloneGraph(n) );
-            }
         }
         return hash[node];
     }
