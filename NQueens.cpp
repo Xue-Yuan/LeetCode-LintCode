@@ -1,11 +1,6 @@
 /*
 N queens problem
 */
-
-#include <vector>
-
-using std::vector;
-
 class Solution 
 {
 private:

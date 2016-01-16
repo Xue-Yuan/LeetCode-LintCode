@@ -45,3 +45,38 @@ public:
         return ret;
     }
 };
+
+//DFS
+class Solution 
+{
+public:
+    /**
+     * @param graph: A list of Directed graph node
+     * @return: Any topological order for the given graph.
+     */
+    vector<DirectedGraphNode*> topSort(vector<DirectedGraphNode*> graph) 
+    {
+        // write your code here
+        unordered_map<DirectedGraphNode*, int> degree;
+        for (auto &node : graph)
+        {
+            degree[node];
+            for (auto &nb : node->neighbors)
+                degree[nb]++;
+        }
+
+        vector<DirectedGraphNode *> ret;
+        for (int i = 0; i < graph.size(); ++i)
+            if (degree[graph[i]] == 0) dfs(graph[i], degree, ret);
+
+        return ret;
+    }
+
+    void dfs(DirectedGraphNode *cur, unordered_map<DirectedGraphNode*, int> &degree, vector<DirectedGraphNode*> &ret)
+    {
+        ret.push_back(cur);
+        --degree[cur];  //avoid duplicates. Think about it.
+        for (auto &nb : cur->neighbors)
+            if (--degree[nb] == 0) dfs(nb, degree, ret);
+    }
+};

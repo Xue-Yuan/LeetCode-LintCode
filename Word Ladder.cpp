@@ -65,10 +65,10 @@ public:
     {
         wordDict.erase(beginWord);
         wordDict.erase(endWord);
-        unordered_set<string> nextWords;
-        unordered_set<string> prevWords;
+        unordered_set<string> nextWords, prevWords;
         nextWords.insert(beginWord);
         prevWords.insert(endWord);
+        
         int ladder = 2, len = (int)beginWord.length();
         while (!nextWords.empty() && !prevWords.empty())
         {

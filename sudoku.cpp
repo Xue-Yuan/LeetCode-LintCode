@@ -2,11 +2,6 @@
     Sudoku Solver.
     Assume unique solution.
 */
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
 class Solution
 {
 public:
@@ -15,13 +10,14 @@ public:
         solveSudoku(board, 0, 0);
     }
 
+private:
     bool solveSudoku(vector<vector<char>> &board, int row, int col)
     {
-        if(row > 8)
-            return true;
+        if(row > 8) return true;
+
         nextAvailable(board, row, col);
         vector<bool> isValid(9, true);
-        isValidTbale(board, row, col, isValid);
+        checkValid(board, row, col, isValid);
         for(int i = 1; i <=9; ++i)
         {
             if(isValid[i - 1])
@@ -29,14 +25,13 @@ public:
                 board[row][col] = char(i + '0');
                 int nrow = row, ncol = col;
                 nextAvailable(board, nrow, ncol);
-                if(solveSudoku(board, nrow, ncol))
-                    return true;
+                if(solveSudoku(board, nrow, ncol)) return true;
                 board[row][col] = '.';
             }
         }        
         return false;
     }
-    void isValidTbale(vector<vector<char>> &board, int row, int col, vector<bool> &isValid)
+    void checkValid(vector<vector<char>> &board, int row, int col, vector<bool> &isValid)
     {
         for(int i = 0; i < 9; ++i)
         {
@@ -51,7 +46,7 @@ public:
         do 
         {
             if (board[row][col] == '.') return;
-            row = (col == 8) ? row + 1 : row;
+            row += col == 8;
             col = (col + 1) % 9;
         } while (row < 9);
     }
