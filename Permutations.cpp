@@ -25,8 +25,7 @@ public:
             if(m == -1)	break;
             int l = -1;
             for(int i = m + 1; i < nums.size(); ++i)
-                if(nums[i] > nums[m])
-                    l = i;
+                if(nums[i] > nums[m]) l = i;
             swap(nums[m], nums[l]);
             reverse(nums.begin() + m + 1, nums.end());
             ret.push_back(nums);
@@ -92,4 +91,32 @@ public:
     }
 private:
     vector<vector<int>> res;
+};
+
+class Solution4
+{
+    private:
+    //pass by reference. The result is not in monotonic order.
+    void recursion(vector<int> &nums, int beg, vector<vector<int>> &res) 
+    {
+        if (beg == nums.size()) 
+        {
+            res.push_back(nums);
+            return;
+        }
+        for (int i = beg; i < nums.size(); i++) 
+        {
+            swap(nums[i], nums[beg]);
+            recursion(nums, beg + 1, res);
+            swap(nums[i], nums[beg]);
+        }
+    }
+public:
+    vector<vector<int> > permute(vector<int> &nums) 
+    {
+        if (nums.empty()) return {};
+        vector<vector<int>> res;
+        recursion(nums, 0, res);
+        return res;
+    }
 };
