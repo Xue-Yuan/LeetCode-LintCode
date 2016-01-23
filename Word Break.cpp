@@ -25,3 +25,28 @@ public:
         return dp[s.size()];
     }
 };
+
+//Without this optimization it will fail the test from lintcode.
+class Solution2
+{
+public:
+    bool wordBreak(string s, unordered_set<string> &dict)
+    {
+        int longestWord = 0;
+        for(const string &word : dict)
+            longestWord = max(longestWord, (int)word.size());
+
+        vector<bool> dp(s.size()+1,false);
+        dp[0] = true;
+
+        for(int i = 1;i <= s.size(); i++)
+            for(int j = i - 1; j >= max(i - longestWord, 0); j--)
+                if(dp[j] && dict.find(s.substr(j, i - j)) != dict.end())
+                {
+                    dp[i] = true;
+                    break;
+                }
+
+        return dp[s.size()];
+    }
+};

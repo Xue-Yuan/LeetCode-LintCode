@@ -18,30 +18,45 @@
     O(N^2) time and O(N^2) space. We can further optimize it to use
         O(N) space.
 */
-class Solution
+class Solution 
 {
-public:
-    int numDistinct(string s, string t)
+public:    
+    int numDistinct(string &S, string &T) 
     {
-        if (s.size() < t.size())
-            return 0;
-        vector<vector<int>> dp(s.size(), vector<int>(t.size(), 0));
-        
-        dp[0][0] = s[0] == t[0];
-        for (int i = 1; i < dp.size(); ++i)
-            dp[i][0] = dp[i - 1][0] + (s[i] == t[0]);
-        
-        for (int j = 1; j < dp[0].size(); ++j)
+        int ssz = S.size(), tsz = T.size();
+        vector<vector<int>> dp(ssz + 1, vector<int>(tsz + 1, 0));
+        dp[0][0] = 1;
+        for (int i = 1; i <= ssz; ++i)
         {
-            for (int i = j; i < dp.size(); ++i)
+            dp[i][0] = 1;
+            for (int j = 1; j <= tsz; ++j)
             {
-                if (s[i] != t[j])
-                    dp[i][j] = dp[i - 1][j];
-                else
-                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                dp[i][j] = dp[i - 1][j];
+                if (S[i - 1] == T[j - 1]) dp[i][j] += dp[i - 1][j - 1];
             }
         }
+        return dp[ssz][tsz];
+    }
+};
 
-        return dp[s.size() - 1][t.size() - 1];
+class Solution2
+{
+public:    
+    int numDistinct(string &S, string &T) 
+    {
+        int ssz = S.size(), tsz = T.size();
+        vector<int> dp(tsz + 1, 0);
+        dp[0] = 1;
+        for (int i = 1; i <= ssz; ++i)
+        {
+            int prev = dp[0];
+            for (int j = 1; j <= tsz; ++j)
+            {
+                int tmp = dp[j];
+                if (S[i - 1] == T[j - 1]) dp[j] += prev;
+                prev = tmp;
+            }
+        }
+        return dp[tsz];
     }
 };

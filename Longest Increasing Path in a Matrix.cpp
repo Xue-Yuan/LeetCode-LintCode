@@ -47,21 +47,49 @@ public:
 private:
     int dfs(vector<vector<int>> &matrix, int r, int c, vector<vector<int>> &dp, int cnt, int *last)
     {
-        if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || dp[r][c] == VISITED) return cnt;
-        if (last && *last <= matrix[r][c]) return cnt;
-        
+        if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size()) return cnt;
+        if (last && *last <= matrix[r][c]) return cnt;        
         if (dp[r][c] > 0) return cnt + dp[r][c];
         
         ++cnt;
-        dp[r][c] = VISITED;
         int res = 0;
         res = max(res, dfs(matrix, r - 1, c, dp, cnt, &matrix[r][c]));
         res = max(res, dfs(matrix, r + 1, c, dp, cnt, &matrix[r][c]));
         res = max(res, dfs(matrix, r, c + 1, dp, cnt, &matrix[r][c]));
-        res = max(res, dfs(matrix, r, c - 1, dp, cnt, &matrix[r][c]));
-        dp[r][c] = -1;
-        
+        res = max(res, dfs(matrix, r, c - 1, dp, cnt, &matrix[r][c]));        
         return res;
     }
-    const int VISITED = -2;
+};
+
+//Actually we can save the result of each step during the dfs process.
+class Solution2 
+{
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) 
+    {
+        if (matrix.empty() || matrix[0].empty()) return 0;
+        vector<vector<int>> dp(matrix.size(), vector<int>(matrix[0].size(), -1));
+        
+        int res = 0;
+        for (int i = 0; i < matrix.size(); ++i)
+            for (int j = 0; j < matrix[0].size(); ++j)
+                res = max(res, dfs(matrix, i, j, dp, nullptr));
+                
+        return res;
+    }
+    
+private:
+    int dfs(vector<vector<int>> &matrix, int r, int c, vector<vector<int>> &dp, int *last)
+    {
+        if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size()) return 0;
+        if (last && *last <= matrix[r][c]) return 0;        
+        if (dp[r][c] > 0) return dp[r][c];
+        
+        int res = 0;
+        res = max(res, dfs(matrix, r - 1, c, dp, &matrix[r][c]));
+        res = max(res, dfs(matrix, r + 1, c, dp, &matrix[r][c]));
+        res = max(res, dfs(matrix, r, c + 1, dp, &matrix[r][c]));
+        res = max(res, dfs(matrix, r, c - 1, dp, &matrix[r][c]));        
+        return dp[r][c] = 1 + res;
+    }
 };
