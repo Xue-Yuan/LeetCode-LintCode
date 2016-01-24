@@ -18,6 +18,7 @@
     O(N^2) time and O(N^2) space. We can further optimize it to use
         O(N) space.
 */
+//Compare with backpack, coin change maximum way.
 class Solution 
 {
 public:    

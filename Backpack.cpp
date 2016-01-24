@@ -11,67 +11,38 @@
     You function should return the max size we can fill in the given 
         backpack.
 */
-
-class Solution 
+        
+//This question is very similar to the coin change problem, distinct 
+//  subsequence
+class Solution
 {
 public:
     int backPack(int m, vector<int> A) 
     {
-        vector<vector<bool>> dp(m + 1, vector<bool>(A.size() + 1, false));
+        vector<vector<int>> dp(A.size()+1, vector<int>(m+1, 0));
         int Asz = (int)A.size();
-        for (int i = 0; i <= Asz; ++i) dp[0][i] = true;
         
-        for (int i = 1; i <= m; ++i)
-            for (int j = 1; j <= Asz; ++j)
-                dp[i][j] = dp[i][j - 1] || (i >= A[j - 1] && dp[i - A[j - 1]][j - 1]);
-                
-        for (int i = m; i >= 0; --i)
-            if (dp[i][Asz]) return i;
-        
-        return 0;
-    }
-};
-
-//It's easier for us to optimize the space complexity if we rotate the 
-//  dp matrix.
-class Solution2 
-{
-public:
-    int backPack(int m, vector<int> A) 
-    {
-        vector<vector<bool>> dp(A.size() + 1, vector<bool>(m + 1));
-        int Asz = (int)A.size();
-        dp[0][0] = true;
         for (int i = 1; i <= Asz; ++i)
-        {
-            dp[i][0] = true;
             for (int j = 1; j <= m; ++j)
-                dp[i][j] = dp[i - 1][j] || (j >= A[i - 1] && dp[i - 1][j - A[i - 1]]);
-        }
-        
-        for (int i = m; i >= 0; --i)
-            if (dp[Asz][i]) return i;
-        return 0;
+                //notice that each elememt can only be used once.
+                dp[i][j] = max(dp[i-1][j], 
+                    j >= A[i-1] ? dp[i-1][j-A[i-1]] + A[i-1] : 0); 
+        return dp[Asz][m];
     }
 };
 
 //Notice that dp[i][j] is dependent on dp[i][j - A[i - 1]], we have to
-//  do this backwards.
-class Solution3 
+//  do the loop backwards.
+class Solution2
 {
 public:
-    int backPack(int m, vector<int> A) 
+    int backPack(int m, vector<int> A)
     {
-        vector<bool> dp(m + 1, false);
+        vector<int> dp(m+1, 0);
         int Asz = (int)A.size();
-        dp[0] = true;
         for (int i = 1; i <= Asz; ++i)
-            //have to do this backwards
             for (int j = m; j >= 1; --j)
-                dp[j] = dp[j] || (j >= A[i - 1] && dp[j - A[i - 1]]);
-        
-        for (int i = m; i >= 0; --i)
-            if (dp[i]) return i;
-        return 0;
+                dp[j] = max(dp[j], j >= A[i-1] ? dp[j-A[i-1]] + A[i-1] : 0);
+        return dp[m];
     }
 };
