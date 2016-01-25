@@ -48,7 +48,7 @@ public:
             }
             incharge[data[3]].push_back(data[0]);
 
-            if (stuff.find(data[0] == stuff.end()))
+            if (stuff.find(data[0]) == stuff.end())
                 stuff[data[0]] = new employee(data[1] + ' ' + data[2], data[0], data[3]);
         }
         in.close();
