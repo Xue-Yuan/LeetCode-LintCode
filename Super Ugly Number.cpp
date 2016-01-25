@@ -77,7 +77,7 @@ public:
     int nthSuperUglyNumber(int n, vector<int>& primes)
     {
         priority_queue<TIII, vector<TIII>, myGreater> pq;
-        vector<int> res(n, 1), max_factor(n, 1);
+        vector<int> res(n), max_factor(n, 1);
         res[0] = 1;
         
         for (auto &p : primes)
@@ -104,15 +104,17 @@ class Solution3
 public:
     int nthSuperUglyNumber(int n, vector<int>& primes) 
     {
-        vector<int> index(primes.size(), 0), ugly(n, INT_MAX);
+        vector<int> index(primes.size(), 0), ugly(n);
         ugly[0] = 1;
         for(int i=1; i<n; i++)
         {
+            int nextUgly = ugly[index[0]] * primes[0];
+            for(int j = 1; j < primes.size(); j++) 
+                nextUgly = min(nextUgly, ugly[index[j]] * primes[j]);
             for(int j = 0; j < primes.size(); j++) 
-                ugly[i] = min(ugly[i], ugly[index[j]] * primes[j]);
-            for(int j = 0; j < primes.size(); j++) 
-                index[j] += (ugly[i] == ugly[index[j]] * primes[j]);
+                index[j] += nextUgly == ugly[index[j]] * primes[j];
+            ugly[i] = nextUgly;
         }
-        return ugly[n-1];
-}
+        return ugly.back();
+    }
 };

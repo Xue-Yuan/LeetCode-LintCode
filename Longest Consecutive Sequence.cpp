@@ -49,8 +49,7 @@ public:
                 s.erase(++upper);
             while (s.find(lower-1) != s.end())
                 s.erase(--lower);
-            if (upper != lower)
-                s.erase(num[i]);
+            s.erase(num[i]);
             res = max(res, upper - lower + 1);
         }
         return res;
