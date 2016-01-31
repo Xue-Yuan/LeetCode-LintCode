@@ -38,3 +38,24 @@ public:
         return nums[b];
     }
 };
+
+class Solution 
+{
+public:
+    int findMin(vector<int> &nums) 
+    {
+        int b = 0, e = (int)nums.size() - 1;
+        while (b < e)
+        {
+            if (nums[b] == nums[e]) e--;
+            else if (nums[b] < nums[e]) return nums[b];
+            else
+            {
+                int m = b + (e - b) / 2;
+                if (nums[b] <= nums[m]) b = m + 1;
+                else e = m;
+            }
+        }
+        return nums[b];
+    }
+};
