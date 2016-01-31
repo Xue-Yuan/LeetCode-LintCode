@@ -62,7 +62,7 @@ public:
         int lo = 0, hi = A.size() - 1;
         int mid = 0;
         
-        while(lo < hi)
+        while(lo <= hi)
         {
             mid = lo + (hi - lo) / 2;
             
@@ -82,6 +82,6 @@ public:
                 hi--;
             }
         }
-        return A[lo] == target;
+        return false;
     }
 };

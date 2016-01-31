@@ -39,7 +39,7 @@ public:
     }
 };
 
-class Solution 
+class Solution2 
 {
 public:
     int findMin(vector<int> &nums) 

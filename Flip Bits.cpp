@@ -12,17 +12,27 @@
 class Solution 
 {
 public:
-    /**
-     *@param a, b: Two integer
-     *return: An integer
-     */
     int bitSwapRequired(int a, int b) 
     {
-        // write your code here
         int res = 0;
-        //if we use int, the most left bit will always be 1 if a is
-        //  positive and b is negative.
+        //if we use int, the result of right shift of negative number
+        //  is implementation-defined.
         for (unsigned tmp = a ^ b; tmp; tmp >>= 1) res += tmp & 0x1;
+        return res;
+    }
+};
+
+class Solution2 
+{
+public:
+    int bitSwapRequired(int a, int b) 
+    {
+        int res = 0, tmp = a ^ b;
+        while (tmp)
+        {
+            res++;
+            tmp = tmp & (tmp - 1);
+        }
         return res;
     }
 };
