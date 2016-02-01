@@ -10,6 +10,8 @@
     Note
         There is only one majority number in the array.
 */
+
+//Can also be used to find all of the majority numbers.
 class Solution 
 {
 public:
@@ -22,7 +24,7 @@ public:
             if ((int)m.size() == k)
                 for (auto itr = m.begin(); itr != m.end();)
                 {
-                    if ((itr->second - (itr->first != n)) == 0) itr = m.erase(itr);
+                    if (--itr->second == 0) itr = m.erase(itr);
                     else ++itr;
                 }
         }

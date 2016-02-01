@@ -13,11 +13,11 @@ public:
     int singleNumber(vector<int>& nums)
     {
         int a = 0, b = 0;
-        for (auto &c : nums)
+        for (int &c : nums)
         {
-            int t_a = a & ~b & ~c | ~a & b & c;
-            b = ~a & ~b & c | ~a & b & ~c;
-            a = t_a;
+            int t = a&~b&~c | ~a&b&c;
+            b = ~a&~b&c | ~a&b&~c;
+            a = t;
         }
         return b;
     }

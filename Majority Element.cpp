@@ -14,18 +14,14 @@ public:
     int majorityElement(vector<int>& nums) 
     {
         if(nums.empty()) return 0;
-        int cnt = 1, cur = nums[0];
-        for(int i = 1; i < nums.size(); ++i)
+        int cnt = 0, cur;
+        for(int &n : nums)
         {
-            if(nums[i] == cur) cnt++;
-            else
+            if(n == cur) cnt++;
+            else if (--cnt <= 0)
             {
-                if(cnt > 0) --cnt;
-                else 
-                {
-                    cur = nums[i];
-                    cnt = 1;
-                }
+                cur = n;
+                cnt = 1;
             }
         }
         return cur;
