@@ -14,19 +14,15 @@
 
 class Solution {
 public:
-    /**
-     * @paramn n: An integer
-     * @return: An integer
-     */
-    int numTrees(int n) {
-        // write your code here
+    int numTrees(int n) 
+    {
         vector<int> dp(n + 1);
-        dp[0] = 1, dp[1] = 1;
-        for (int i = 2; i <= n; ++i)
+        dp[0] = 1;
+        for (size_t i = 1; i <= n; ++i)
         {
             dp[i] = 0;
-            for (int j = 0; j < n; ++j)
-                dp[i] += dp[j] * dp[i - j - 1];
+            for (int j = i - 1; j >= 0; --j)
+                dp[i] += dp[j] * dp[i - 1 - j];
         }
         return dp[n];
     }

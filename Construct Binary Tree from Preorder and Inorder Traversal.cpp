@@ -18,8 +18,6 @@ class Solution
 public:
     TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
     {
-        // write your code here
-        if (preorder.empty() || preorder.size() != inorder.size()) return nullptr;
         auto pitr = preorder.begin();
         return buildTree(pitr, inorder.begin(), inorder.end());
     }
@@ -27,9 +25,8 @@ private:
     TreeNode *buildTree(vecitr &pitr, vecitr b, vecitr e)
     {
         if(b >= e) return nullptr;
-        TreeNode *root = new TreeNode(*pitr);
-        auto tmp = find(b, e, *pitr);
-        pitr++;
+        TreeNode *root = new TreeNode(*pitr++);
+        auto tmp = find(b, e, root->val);
         root->left = buildTree(pitr, b, tmp);
         root->right = buildTree(pitr, tmp + 1, e);
         return root;
