@@ -47,6 +47,7 @@ private:
         if (b1 < s.size() && (s[b1] == p[b2] || p[b2] == '.'))
         {
             if (p[b2 + 1] == '*')
+                //use this '*' to extend the previous char or don't use the previous one
                 return isMatch(s, b1 + 1, p, b2) || isMatch(s, b1, p, b2 + 2);
             else
                 return isMatch(s, b1 + 1, p, b2 + 1);

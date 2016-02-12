@@ -5,7 +5,6 @@
 */
         
 //vote down on both candidates
-//vote down on both candidates
 class Solution 
 {
 public:
