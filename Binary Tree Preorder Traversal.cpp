@@ -45,3 +45,39 @@ public:
         return ret;
     }
 };
+
+//morris
+class Solution2 
+{
+public:
+    vector<int> preorderTraversal(TreeNode* cur) 
+    {
+        vector<int> ret;
+        while(cur)
+        {
+            if(!cur->left)
+            {
+                ret.push_back(cur->val);
+                cur = cur->right;       //we get back from here
+            }
+            else
+            {
+                TreeNode *prev = cur->left;
+                while(prev->right && prev->right != cur)
+                    prev = prev->right;
+                if(!prev->right)
+                {
+                    ret.push_back(cur->val);
+                    prev->right = cur;
+                    cur = cur->left;
+                }
+                else    //now it's back to mid node, we can print it
+                {
+                    cur = cur->right;
+                    prev->right = nullptr;
+                }
+            }
+        }
+        return ret;
+    }
+};

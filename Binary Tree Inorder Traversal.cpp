@@ -45,3 +45,37 @@ public:
         return ret;
     }
 };
+
+//morris
+class Solution2 {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ret;
+        while (root)
+        {
+            if (!root->left)
+            {
+                ret.push_back(root->val);
+                root = root->right;
+            }
+            else
+            {
+                TreeNode *node = root->left;
+                while (node->right && node->right != root)
+                    node = node->right;
+                if (!node->right)
+                {
+                    node->right = root;
+                    root = root->left;
+                }
+                else
+                {
+                    ret.push_back(root->val);
+                    node->right = nullptr;
+                    root = root->right;
+                }
+            }
+        }
+        return ret;
+    }
+};

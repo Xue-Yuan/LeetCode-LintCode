@@ -20,21 +20,21 @@ class Solution
 public:
     void nextPermutation(vector<int>& nums)
     {
-         int k = -1;
-         for(int i = 0; i < nums.size() - 1; ++i)
-             if(nums[i] < nums[i + 1]) k = i;                
+        int k = -1;
+        for(int i = 0; i < nums.size() - 1; ++i)
+            if(nums[i] < nums[i + 1]) k = i;                
 
-         if(k == -1)
-         {
-             reverse(nums.begin(), nums.end());
-             return;
-         }
+        if(k == -1)
+        {
+            reverse(nums.begin(), nums.end());
+            return;
+        }
 
-         int l = -1;
-         for(int i = k; i < nums.size(); ++i)
-             if(nums[i] > nums[k]) l = i;
-         swap(nums[k], nums[l]);
+        int l = -1;
+        for(int i = k; i < nums.size(); ++i)   //in case of duplicates
+            if(nums[i] > nums[k]) l = i;
+        swap(nums[k], nums[l]);
 
-         reverse(nums.begin() + k + 1, nums.end());
+        reverse(nums.begin() + k + 1, nums.end());
     }
 };
