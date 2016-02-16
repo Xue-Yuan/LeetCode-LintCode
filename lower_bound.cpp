@@ -7,7 +7,7 @@ class Solution {
 public:
     int lower_bound(vector<int> &A, int target) {
         // write your code here
-        int b = 0, e = A.size();
+        int b = 0, e = (int)A.size();
         while (b < e)
         {
             int m = b + (e - b) / 2;

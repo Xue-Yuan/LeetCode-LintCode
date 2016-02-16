@@ -120,7 +120,7 @@ public:
             //  disjoint graph with one node. So this sentence
             //  can be put outside the while loop, by doing which
             //  may promote the performance a little bit.
-            if(map.find(t)  == map.end())   
+            if(map.find(t) == map.end())   
                 map[t] = new UndirectedGraphNode(t->label);
             for(auto &n : t->neighbors)
             {

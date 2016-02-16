@@ -12,22 +12,16 @@
 */
 
 class Solution {
-public:    
-    /**
-     * @param A, B: Two string.
-     * @return: the length of the longest common substring.
-     */
+public:
     int longestCommonSubstring(string &A, string &B) {
-        // write your code here
-        vector<vector<int>> dp(A.size() + 1, vector<int>(B.size() + 1, 0));
-        
-        int res = 0;
-        for (int i = 1; i < dp.size(); ++i)
-            for (int j = 1; j < dp[0].size(); ++j)
+        vector<vector<int>> dp(A.size()+1, vector<int>(B.size()+1, 0));
+        int ret = 0;
+        for (size_t i = 1; i <= A.size(); ++i)
+            for (size_t j = 1; j <= B.size(); ++j)
             {
-                if (A[i - 1] == B[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
-                res = max(res, dp[i][j]);
-            }
-        return res;
+                if (A[i-1] == B[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
+                ret = max(ret, dp[i][j]);
+            }   
+        return ret;
     }
 };
