@@ -30,7 +30,6 @@
 class MedianFinder
 {
 public:
-
     // Adds a number into the data structure.
     void addNum(int num)
     {
@@ -79,7 +78,6 @@ public:
     // Adds a number into the data structure.
     void addNum(int num) 
     {
-
         if(!(currentSize & 0x1))        //even
         {
             if(currentSize != 0 && num < leftMaxHeap.top()) //have to check for the start condition

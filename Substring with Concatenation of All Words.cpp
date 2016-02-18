@@ -17,36 +17,29 @@
 class Solution 
 {
 public:
-    vector<int> findSubstring(string s, vector<string>& words) 
-    {
-        if(words.empty() || s.empty()) return {};
-        unordered_map<string, int> m1, m2;
-        for(auto &w : words)
-            m2[w] = ++m1[w];
-            
-        vector<int> ret;
-        
-        int m = s.size(), n = words.size(), wlen = words[0].size();
-
-        vector<bool> pass(s.size(), false);
-        for(int i = 0; i <= m - n * wlen; ++i)
+    vector<int> findSubstring_1(string S, vector<string> &L) {
+        vector<int> res;
+        if (S.empty() || L.empty()) return res;
+        int M = S.size(), N = L.size();
+        int K = L[0].size();
+        unordered_map<string, int> need, found;
+        for (int i = 0; i < N; ++i)
+            need[L[i]]++;
+        for (int i = 0; i <= M - N * K; ++i)
         {
-            if(pass[i]) continue;
-            int cnt = 0;
-            for(int j = i; j < s.size(); j += wlen)
+            found.clear();
+            int j;
+            for (j = 0; j < N; ++j)
             {
-                if(m2[s.substr(j, wlen)] == 0) break;
-                m2[s.substr(j, wlen)]--;
-                cnt++;
-                if(cnt == n)
-                {
-                    ret.push_back(i);
-                    break;
-                }
+                string s = S.substr(i + j * K, K);
+                auto it = need.find(s);
+                if (it == need.end()) break;
+                if (it->second <= found[s]) break;
+                found[s]++;
             }
-            m2 = m1;
+            if (j == N) res.push_back(i);
         }
-        return ret;
+        return res;
     }
 };
 
@@ -54,44 +47,42 @@ public:
 class Solution 
 {
 public:
-    vector<int> findSubstring(string S, vector<string> &L) 
+vector<int> findSubstring(string s, vector<string>& words) 
     {
-	    vector<int> res;
-	    if (S.empty() || L.empty()) return res;
-	    unordered_map<string, int> need;
-	    for (int i = 0; i < L.size(); ++i)
-	        need[L[i]]++;
-
-	    int n = L[0].length(), m = L.size();
-
-	    for (int i = 0; i < n; ++i) 
-	    {
-	        unordered_map<string, int> find;
-	        for (int start = i, end = i, count = 0; end + n <= S.length(); end += n) 
-	        {
-	            string str = S.substr(end, n);
-	            if (need.find(str) == need.end()) 
-	            {
-	                start = end + n;
-	                find.clear();
-	                count = 0;
-	            }
-	            else
-	            {
-	            	find[str]++;
-	            	count++;
-		            while (find[str] > need[str]) 
-		            {
-		                string subStart = S.substr(start, n);
-		                find[subStart]--;
-		                start += n;
-		                --count;
-		            }
-		            if (count == m)
-		            	res.push_back(start);
-			    }
-	        }
-	    }
-    	return res;
+        if (s.empty() || words.empty()) return {};
+        size_t s_sz = s.size(), w_sz = words[0].size();
+        
+        unordered_map<string, int> need;
+        for (auto &w : words) 
+            need[w]++;
+        
+        vector<int> ret;
+        for (size_t i = 0; i < w_sz; ++i)
+        {
+            unordered_map<string, int> found;
+            for (size_t start = i, end = i, count = 0; 
+            	end + w_sz <= s_sz; end += w_sz)
+            {
+                string word = s.substr(end, w_sz);
+                if (need.find(word) == need.end()) 
+                {
+                    start = end + w_sz;
+                    found.clear();
+                    count = 0;
+                }
+                else
+                {
+                    found[word]++; count++;
+                    while (need[word] < found[word])
+                    {
+		                found[s.substr(start, w_sz)]--;
+                        start += w_sz;
+                        count--;
+                    }
+                    if (count == words.size()) ret.push_back(start);
+                }
+            }
+        }
+        return ret;
     }
 };

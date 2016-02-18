@@ -24,17 +24,15 @@ class Solution
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) 
     {
-        if(nums.size() <=1 || k == 1) return nums;
-        
-        deque<pair<int, int>> dq;
-        dq.push_back({nums[0], 0});
+        if (k < 1) return {};
         vector<int> ret;
-        for(int i = 1; i < nums.size(); ++i)
+        deque<pair<int, int>> dq;
+        for (int i = 0; i < (int)nums.size(); ++i)
         {
-            if(i == dq.front().second + k) dq.pop_front();
-            while(!dq.empty() && dq.back().first <= nums[i]) dq.pop_back();
+            if (!dq.empty() && i-dq.front().second > k-1) dq.pop_front();
+            while (!dq.empty() && dq.back().first <= nums[i]) dq.pop_back();
             dq.push_back({nums[i], i});
-            if(i >= k-1) ret.push_back(dq.front().first);
+            if (i >= k-1) ret.push_back(dq.front().first);
         }
         return ret;
     }

@@ -28,7 +28,6 @@ public:
 		dp[0] = cost[0];
 
 		for (size_t i = 1; i < cost.size(); ++i)
-		{
 			for (size_t cur = 0; cur < cost[0].size(); ++cur)
 			{
 				dp[i][cur] = INT_MAX;
@@ -38,7 +37,6 @@ public:
 					dp[i][cur] = min(dp[i][cur], dp[i-1][pre]+cost[i][cur]);
 				}
 			}
-		}
 		return *min_element(dp.back().begin(), dp.back().end());
 	}
 };
