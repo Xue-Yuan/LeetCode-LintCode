@@ -10,8 +10,6 @@
     You may assume no duplicate exists in the array.
     */
 
-//find minimum first
-//then binary search
 class Solution 
 {
 public:

@@ -17,7 +17,7 @@
 class Solution 
 {
 public:
-    vector<int> findSubstring_1(string S, vector<string> &L) {
+    vector<int> findSubstring(string S, vector<string> &L) {
         vector<int> res;
         if (S.empty() || L.empty()) return res;
         int M = S.size(), N = L.size();

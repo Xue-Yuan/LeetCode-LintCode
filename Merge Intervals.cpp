@@ -47,3 +47,31 @@ public:
         return ret;
     }
 };
+
+class Solution2 
+{
+private:
+    bool isDisjoint(Interval &a, Interval &b) {return a.end < b.start || a.start > b.end;}
+    void merge2(Interval &a, Interval &b) {a.end = max(a.end, b.end);}
+public:
+    vector<Interval> merge(vector<Interval>& intervals) 
+    {
+        if (intervals.size() < 2) return intervals;
+        
+        sort(intervals.begin(), intervals.end(), [](Interval &a, Interval &b){return a.start < b.start;});
+        Interval cur = intervals.front();
+        
+        vector<Interval> ret;
+        for (size_t i = 1; i < intervals.size(); ++i)
+        {
+            if (isDisjoint(cur, intervals[i]))
+            {
+                ret.push_back(cur);
+                cur = intervals[i];
+            }
+            else merge2(cur, intervals[i]);
+        }
+        ret.push_back(cur);
+        return ret;
+    }
+};
