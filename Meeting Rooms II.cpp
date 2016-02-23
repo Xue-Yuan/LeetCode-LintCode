@@ -40,27 +40,20 @@ public:
 
 //We can use a heap to optimize the find step.
 class Solution2 {
-private:
-    struct myGreater
-    {
-        bool operator()(Interval &a, Interval &b) {return a.end > b.end;}
-    };
 public:
     int minMeetingRooms(vector<Interval>& intervals) {
         if (intervals.empty()) return 0;
         
-        sort(intervals.begin(), intervals.end(), [](Interval &a, Interval &b){return a.start < b.start;});
+        sort(intervals.begin(), intervals.end(), 
+            [](Interval &a, Interval &b){return a.start < b.start;});
         
-        priority_queue<Interval, vector<Interval>, myGreater> pq;
-        pq.push(intervals.front());
+        priority_queue<int, vector<int>, greater<int>> pq;
+        pq.push(intervals.front().end);
         
         for (size_t i = 1; i < intervals.size(); ++i)
         {
-            auto tmp = pq.top(); pq.pop();
-            if (tmp.end <= intervals[i].start)
-                tmp.end = intervals[i].end;
-            else pq.push(intervals[i]);
-            pq.push(tmp);
+            if (intervals[i].start >= pq.top()) pq.pop();
+            pq.push(intervals[i].end);
         }
         return (int)pq.size();
     }

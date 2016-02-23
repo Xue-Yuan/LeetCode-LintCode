@@ -32,6 +32,7 @@ public:
                 auto p = cur.front(); cur.pop();
                 if (grid[p.first][p.second] == target) return cnt;
                 grid[p.first][p.second] = -1;
+                
                 if (p.first+1 < row && grid[p.first+1][p.second] != -1) 
                     nxt.push({p.first+1, p.second});
                 if (p.first-1 >= 0 && grid[p.first-1][p.second] != -1) 

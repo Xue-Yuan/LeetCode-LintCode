@@ -5,50 +5,33 @@
 */
         
 //vote down on both candidates
-class Solution 
-{
+class Solution {
 public:
-    vector<int> majorityElement(vector<int>& nums)
-    {
-        int n = nums.size();
-        if(n < 2) return nums;
+    vector<int> majorityElement(vector<int>& nums) {
+        if (nums.empty()) return {};
         
-        int can1 = 0, can2 = 1, cnt1 = 0, cnt2 = 0;
-        for(auto &i : nums)
+        int can1, can2, cnt1 = 0, cnt2 = 0;
+        for (int &i : nums)
         {
-            if(i == can1 || i == can2)
-            {
-                cnt1 += i == can1;
-                cnt2 += i == can2;
-            }
-            else if(cnt1 == 0)
-            {
-                can1 = i;
-                cnt1 = 1;
-            }
-            else if(cnt2 == 0)
-            {
-                can2 = i;
-                cnt2 = 1;
-            }
-            else
-            {
-                cnt1--;
-                cnt2--;
-            }
+            if (can1 == i) cnt1++;
+            else if (can2 == i) cnt2++;
+            else if (cnt1 == 0) {can1 = i; cnt1 = 1;}
+            else if (cnt2 == 0) {can2 = i; cnt2 = 1;}
+            else {cnt1--; cnt2--;}
         }
         
         cnt1 = cnt2 = 0;
-        for(int &i : nums)
+        for (int &i : nums)
         {
-            cnt1 += i == can1;
-            cnt2 += i == can2;
+            cnt1 += can1 == i;
+            cnt2 += can2 == i;
         }
+        
+        int sz = nums.size();
         vector<int> ret;
-        if(cnt1 > n / 3) ret.push_back(can1);
-        if(cnt2 > n / 3) ret.push_back(can2);
+        if (cnt1 > sz/3) ret.push_back(can1);
+        if (cnt2 > sz/3) ret.push_back(can2);
         
         return ret;
     }
 };
-

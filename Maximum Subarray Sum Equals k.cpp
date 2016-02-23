@@ -5,7 +5,7 @@ public:
 	{
 		unordered_map<int, int> m;
 		m[0] = -1;
-		int n_sz = (int)nums.size(), sum = 0, res = -1;
+		int n_sz = (int)nums.size(), sum = 0, res = 0;
 		for (int i = 0; i < n_sz; ++i)
 		{
 			sum += nums[i];
