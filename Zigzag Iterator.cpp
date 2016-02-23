@@ -1,29 +1,30 @@
 class ZigzagIterator 
 {
-	using VecItr = vector<int>::iterator;
+    using VecItr = vector<int>::iterator;
 public:
     ZigzagIterator(vector<vector<int>> &v) 
     {
-    	for (auto &vec: v)
-    		if (!v.empty()) lst.push_back({v.begin(), v.end()});
-    	itr= lst.begin();
+        for (auto &vec: v)
+            if (!vec.empty()) lst.push_back({vec.begin(), vec.end()});
+        itr= lst.begin();
     }
  
     int next() 
     {
-    	int ret = *itr->first;
-    	if (++itr->first == itr->second) itr = lst.erase(itr);
-    	else advance(itr, 1);
-    	return ret;
+        int ret = *itr->first;
+        if (++itr->first == itr->second) itr = lst.erase(itr);
+        else ++itr;
+        if (itr == lst.end()) itr = lst.begin();
+        return ret;
     }
  
     bool hasNext() 
-	{
-    	return !lst.empty(); 
+    {
+        return !lst.empty(); 
     }
 private:
-	List<pair<VecItr, VecItr>> lst;
-	List<pair<VecItr, VecItr>>::iterator itr;
+    list<pair<VecItr, VecItr>> lst;
+    list<pair<VecItr, VecItr>>::iterator itr;
 };
 
 int main()

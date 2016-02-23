@@ -12,6 +12,7 @@
         " 2-1 + 2 " = 3
         "(1+(4+5+2)-3)+(6+8)" = 23
 */
+//general method
 class Solution 
 {
 private:
@@ -83,5 +84,40 @@ public:
         while(!ops.empty())
             eval(vals, ops);        
         return vals.top();
+    }
+};
+
+//for this problem
+class Solution2 {
+public:
+    int calculate(string s) {
+        stack<int> num, op;
+        int result = 0;
+        int numer = 0;
+        int sign = 1;
+        for (auto c:s){
+            if (isdigit(c)){
+                numer = numer * 10 + c - '0';
+            }
+            else{
+                result += numer * sign;
+                numer = 0;
+                if (c == '+') sign = 1;
+                if (c == '-') sign = -1;
+                if (c == '('){
+                    num.push(result);
+                    op.push(sign);
+                    result = 0;
+                    sign = 1;
+                }
+                if (c == ')' && !op.empty()){
+                    result = num.top() + op.top() * result;
+                    num.pop();
+                    op.pop();
+                }
+            }
+        }
+        result += sign * numer;
+        return result;
     }
 };
