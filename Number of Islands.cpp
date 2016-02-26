@@ -51,3 +51,68 @@ public:
         mark(grid, r, c + 1);
     }
 };
+
+//union-find solution for the number of islandsII
+class UF
+{
+public:
+    UF(int N): count(N), size(N, 0), id(N) 
+    {
+        iota(id.begin(), id.end(), 0);
+    }
+    ~UF(){}
+    int UFFind(int p)
+    {
+        if (p >= (int)id.size()) return -1;
+        while (p != id[p])
+        {
+            id[p] = id[id[p]];
+            p = id[p];
+        }
+        return p;
+    }
+    int getCount() {return count;}
+    bool UFUnion(int p, int q)
+    {
+        int i = UFFind(p), j = UFFind(q);
+        if (i == j || i < 0 || j < 0) return false;
+        if (size[i] > size[j])
+            id[j] = i;
+        else if (size[i] < size[j])
+            id[i] = j;
+        else
+        {
+            id[j] = i;
+            size[i]++;
+        }
+        count--;
+        return true;
+    }
+private:
+    int count;
+    vector<int> size;
+    vector<int> id;
+};
+
+class Solution2 {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        if (grid.empty() || grid[0].empty()) return 0;
+        
+        int row = grid.size(), col = grid[0].size();
+        UF myUF(row*col+1);
+        int water = row*col;
+        for (int i = 0; i < row; ++i)
+            for (int j = 0; j < col; ++j)
+                if (grid[i][j] == '1')
+                {
+                    if (i < row-1 && grid[i+1][j] == '1')
+                        myUF.UFUnion(i*col+j, (i+1)*col+j);
+                    if (j < col-1 && grid[i][j+1] == '1')
+                        myUF.UFUnion(i*col+j, i*col+j+1);
+                }
+                else myUF.UFUnion(i*col+j, water);
+
+        return myUF.getCount() - 1;
+    }
+};
