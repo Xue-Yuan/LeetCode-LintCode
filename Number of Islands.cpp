@@ -63,19 +63,14 @@ public:
     ~UF(){}
     int UFFind(int p)
     {
-        if (p >= (int)id.size()) return -1;
-        while (p != id[p])
-        {
-            id[p] = id[id[p]];
-            p = id[p];
-        }
-        return p;
+        if (p == id[p]) return;
+        return id[p] = UFFind(id[p]);
     }
     int getCount() {return count;}
     bool UFUnion(int p, int q)
     {
         int i = UFFind(p), j = UFFind(q);
-        if (i == j || i < 0 || j < 0) return false;
+        if (i == j) return false;
         if (size[i] > size[j])
             id[j] = i;
         else if (size[i] < size[j])

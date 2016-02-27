@@ -36,3 +36,31 @@ public:
         return cnt;
     }
 };
+
+//O(nlog(m))
+class Solution2 {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if (matrix.empty() || matrix[0].empty())
+            return false;
+        int r = matrix.size(), c = matrix[0].size();
+        
+        auto itr = upper_bound(matrix[0].begin(), matrix[0].end(), target);
+        
+        c = itr - matrix[0].begin() - 1;
+        while (c >= 0)
+        {
+            int b = 0, e = r;
+            while (b < e)
+            {
+                int m = b + (e - b) / 2;
+                if (target > matrix[m][c])
+                    b = m+1;
+                else e = m;
+            }
+            if (b != r && matrix[b][c] == target) return true;
+            else c--;
+        }
+        return false;
+    }
+};

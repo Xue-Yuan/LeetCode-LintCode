@@ -5,6 +5,7 @@
         substring.
     http://articles.leetcode.com/2011/11/longest-palindromic-substring-part-ii.html
 */
+//Manacher's
 class Solution 
 {
 private:

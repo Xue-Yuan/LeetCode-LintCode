@@ -31,42 +31,59 @@ struct Node
 
 //When duplicates happens, no extra nodes inserted. Simply increment
 //  the cnt.
-class Solution
+struct Node
 {
+    int val;
+    int cnt;
+    Node *left, *right;
+    Node(int v, int c): val(v), cnt(c), left(nullptr), right(nullptr){}
+};
+
+class BST
+{
+public:
+    BST(): root(nullptr) {}
+    ~BST() { destory(root); }
+    int insert(int val) { return insert(root, val); }
+    
 private:
-    int insert(Node *&root, int data, int acc)
+    Node *root;
+    int insert(Node *&t, int data)
     {
-        if (!root)
+        if (!t)
         {
-            root = new Node(data, 1);
-            return acc;
+            t = new Node(data, 1);
+            return 0;
         }
-        root->cnt++;
-        if (data == root->val)
-            return (root->left ? root->left->cnt : 0) + acc;
-        if (data < root->val)
-            return insert(root->left, data, acc);
-        //data > root->val
-        return insert(root->right, data, acc + root->cnt - 1 - (root->right ? root->right->cnt : 0));
+        t->cnt++;
+        if (data == t->val)
+            return t->left ? t->left->cnt : 0;
+        if (data < t->val)
+            return insert(t->left, data);
+        //data > t->val
+        return t->cnt - 1 - (t->right ? t->right->cnt : 0) + insert(t->right, data);
     }
     void destory(Node *root)
     {
         if (!root) return;
-        destory(root->left);
-        destory(root->right);
+        if (root->left) destory(root->left);
+        if (root->right) destory(root->right);
         delete root;
     }
+};
+
+class Solution {
 public:
-    vector<int> countSmaller(vector<int>& nums)
-    {
+    vector<int> countSmaller(vector<int>& nums) {
         vector<int> ret(nums.size());
-        for (int i = (int)nums.size() - 1; i >= 0; --i)
-            ret[i] = insert(root, nums[i], 0);
-        destory(root);
+        BST bst;
+        int len = nums.size();
+        for (int i = len-1; i >= 0; i--)
+        {
+            ret[i] = bst.insert(nums[i]);
+        }
         return ret;
     }
-private:
-    Node *root = nullptr;
 };
 
 class Solution2

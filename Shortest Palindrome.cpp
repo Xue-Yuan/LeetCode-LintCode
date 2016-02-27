@@ -52,7 +52,7 @@ public:
 
         int end = 0;
         for(int i = 0; i < dp.size(); ++i)
-        {
+        {   //i - dp[i] is the idx of str. (idx(str) - 1) / 2 is the idx of the original string
             if((i - dp[i] - 1) / 2 == 0)
                 end = (i + dp[i] - 1) / 2;
         }
