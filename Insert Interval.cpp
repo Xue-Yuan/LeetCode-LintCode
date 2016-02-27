@@ -15,29 +15,32 @@
     This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
 */
 
-class Solution
-{
+class Solution {
 public:
-    vector<Interval> insert(vector<Interval>& intervals, Interval newInterval)
+    vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) 
     {
         if (intervals.empty()) return {newInterval};
-        
-        auto left = lower_bound(intervals.begin(), intervals.end(), newInterval, [](const Interval &a, const Interval &b) {return a.start < b.start;});
-        left--;
-        auto right = upper_bound(intervals.begin(), intervals.end(), newInterval, [](const Interval &a, const Interval &b) {return a.end < b.end;});
-        
-        if (left >= intervals.begin() && left->end >= newInterval.start) newInterval.start = (*left--).start;
-        if (right != intervals.end() && right->start <= newInterval.end) newInterval.end = (*right++).end;
-        
+
+        auto low = lower_bound(intervals.begin(), intervals.end(), newInterval,
+            [](const Interval &a, const Interval &b){ return a.start < b.start; });
+        low--;
+        auto high = upper_bound(intervals.begin(), intervals.end(), newInterval,
+            [](const Interval &a, const Interval &b){ return a.end < b.end; });
+            
+        if (low >= intervals.begin() && low->end >= newInterval.start)
+            newInterval.start = (low--)->start;
+        if (high != intervals.end() && high->start <= newInterval.end)
+            newInterval.end = (high++)->end;
+            
         vector<Interval> ret;
-        for (auto itr = intervals.begin(); itr <= left; ++itr)
+        for (auto itr = intervals.begin(); itr <= low; itr++)
             ret.push_back(*itr);
-        
+            
         ret.push_back(newInterval);
         
-        for (auto itr = right; itr < intervals.end(); ++itr)
+        for (auto itr = high; itr < intervals.end(); itr++)
             ret.push_back(*itr);
-        
+            
         return ret;
     }
 };

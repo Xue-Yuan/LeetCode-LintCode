@@ -38,16 +38,13 @@
 */
 
 //remove leave layer by layer. The answer is(are) the node(s) left.
-
-class Solution
-{
+class Solution {
 public:
-    vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges)
+    vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) 
     {
         if (n == 1) return {0};
-        
         vector<vector<int>> graph(n);
-        vector<int> degree(n);
+        vector<int> degree(n, 0);
         for (auto &p : edges)
         {
             graph[p.first].push_back(p.second);
@@ -56,32 +53,29 @@ public:
             degree[p.second]++;
         }
         
-        queue<int> cur, next;
-        for (int i = 0; i < degree.size(); ++i)
-            if (degree[i] == 1)
-                cur.push(i);
-        
-        //A node is considered deleted only when it gets out of the queue.
+        queue<int> q;
+        for (int i = 0; i < n; ++i)
+            if (degree[i] == 1) q.push(i);
+            
         while (n > 2)
         {
-            while (!cur.empty())
+            size_t sz = q.size();
+            for (size_t i = 0; i < sz; ++i)
             {
-                auto node = cur.front();
-                cur.pop();
-                degree[node]--;
+                int cur = q.front(); q.pop();
+                degree[cur]--;
                 n--;
-                for (auto &i : graph[node])
-                    if (--degree[i] == 1)
-                        next.push(i);
+                for (int neighbor : graph[cur])
+                    if (--degree[neighbor] == 1)
+                        q.push(neighbor);
             }
-            swap(cur, next);
         }
         
         vector<int> ret;
-        while (!cur.empty())
+        while (!q.empty())
         {
-            ret.push_back(cur.front());
-            cur.pop();
+            ret.push_back(q.front());
+            q.pop();
         }
         return ret;
     }

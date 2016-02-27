@@ -30,3 +30,5 @@ public:
         nums = move(tmp);
     }
 };
+
+//https://leetcode.com/discuss/77133/o-n-o-1-after-median-virtual-indexing

@@ -16,21 +16,16 @@
         h-index is 3.
 */
 
-class Solution 
+class Solution
 {
 public:
-    int hIndex(vector<int>& citations) 
+    int hIndex(vector<int>& citations)
     {
-        if(citations.empty()) return 0;
-        
         sort(citations.begin(), citations.end());
-        int h = 0;
-        for(int i = 0; i < citations.size(); ++i)
-        {
-            int remain = citations.size() - i;
-            h = max(h, min(citations[i], remain));
-            if(h == remain) break;
-        }
-        return h;
+        int ret = 0, len = (int)citations.size();
+        for (int i = 0; i < len; ++i)
+            ret = max(min(citations[i], len-i), ret);
+
+        return ret;
     }
 };

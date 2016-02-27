@@ -62,34 +62,39 @@ private:
 };
 
 //Actually we can save the result of each step during the dfs process.
-class Solution2 
-{
+class Solution2 {
 public:
     int longestIncreasingPath(vector<vector<int>>& matrix) 
     {
         if (matrix.empty() || matrix[0].empty()) return 0;
-        vector<vector<int>> dp(matrix.size(), vector<int>(matrix[0].size(), -1));
         
-        int res = 0;
-        for (int i = 0; i < matrix.size(); ++i)
-            for (int j = 0; j < matrix[0].size(); ++j)
-                res = max(res, dfs(matrix, i, j, dp, nullptr));
-                
-        return res;
+        memo.assign(matrix.size(), vector<int>(matrix[0].size(), 0));
+        r = (int)matrix.size(), c = (int)matrix[0].size();
+        
+        int ret = 1;
+        for (int i = 0; i < r; i++)
+            for (int j = 0; j < c; j++)
+                ret = max(ret, dfs(matrix, i, j, nullptr));
+        
+        return ret;
     }
-    
 private:
-    int dfs(vector<vector<int>> &matrix, int r, int c, vector<vector<int>> &dp, int *last)
+    int dfs(vector<vector<int>> &m, int x, int y, int *pre)
     {
-        if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size()) return 0;
-        if (last && *last <= matrix[r][c]) return 0;        
-        if (dp[r][c] > 0) return dp[r][c];
+        if (x<0 || x>=r || y<0 || y>=c) return 0;
+        if (pre && m[x][y] >= *pre) return 0;
+        if (memo[x][y] > 0) return memo[x][y];
         
-        int res = 0;
-        res = max(res, dfs(matrix, r - 1, c, dp, &matrix[r][c]));
-        res = max(res, dfs(matrix, r + 1, c, dp, &matrix[r][c]));
-        res = max(res, dfs(matrix, r, c + 1, dp, &matrix[r][c]));
-        res = max(res, dfs(matrix, r, c - 1, dp, &matrix[r][c]));        
-        return dp[r][c] = 1 + res;
-    }
+        int ret = 0;
+        pre = &m[x][y];
+        ret = max(ret, dfs(m, x+1, y, pre));
+        ret = max(ret, dfs(m, x-1, y, pre));
+        ret = max(ret, dfs(m, x, y+1, pre));
+        ret = max(ret, dfs(m, x, y-1, pre));
+        
+        return memo[x][y] = ret + 1;
+    }    
+private:
+    vector<vector<int>> memo;
+    int r, c;
 };

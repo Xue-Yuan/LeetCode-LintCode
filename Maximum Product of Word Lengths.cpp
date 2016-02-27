@@ -26,35 +26,27 @@
         it's much faster than comparing one character after one 
         character.
 */
-class Solution 
-{
+class Solution {
 public:
     int maxProduct(vector<string>& words) 
     {
-        sort(words.begin(), words.end(), [](string &s1, string &s2){return s1.size() > s2.size();});
+        vector<unsigned> vec(words.size());
         
-        vector<int> vec(words.size(), 0);
-        
-        for (int i = 0; i < words.size(); ++i)
-            for (char &c : words[i])
-                vec[i] |= (1 << (c - 'a'));
-        
-        int ret = 0;
-        //Since vec.size() is of type size_t, we may come across
-        //  problems if the size is of 0 and we use i < vec.size() - 1
-        //  as the test condition.(It will run abnormally long time) I 
-        //  think it is generally a good idea to do explicit type 
-        //  conversion, say i < (int)vec.size() - 1.
-        for (int i = 0; i < vec.size(); ++i)
+        int len = words.size();
+        for (int i = 0; i < len; ++i)
         {
-            for (int j = i + 1; j < vec.size(); ++j)
-            {
-                if ((vec[i] & vec[j]) != 0) continue;
-                int tmp = int(words[i].size() * words[j].size());
-                if (tmp < ret) continue;
-                ret = tmp;
-            }
+            unsigned tmp = 0;
+            for (char &ch : words[i])
+                tmp |= 1<<(ch-'a');
+            vec[i] = tmp;
         }
+        
+        size_t ret = 0;
+        for (int i = 0; i < len; ++i)
+            for (int j = i+1; j < len; ++j)
+                if (!(vec[i] & vec[j]))
+                    ret = max(ret, words[i].size()*words[j].size());
+        
         return (int)ret;
     }
 };
