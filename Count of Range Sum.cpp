@@ -13,75 +13,69 @@
             respective sums are: -2, -1, 2.
 */
 
-class Tree
+struct Node
 {
-private:
-    struct Node 
-    {
-        long long val;
-        int cnt;
-        Node* left, *right;
-        Node(long long v): val(v), cnt(1), left(nullptr), right(nullptr){}
-    };
-
-    void insert(Node *&root, long long val)
-    {
-        if (!root) 
-        {
-            root = new Node(val);
-            return;
-        }
-        root->cnt++;
-        if (root->val == val) return;
-        else if (root->val < val) insert(root->right, val);
-        else insert(root->left, val);
-    }
-
-    int greaterThan(Node *root, long long val, int res)
-    {
-        if (!root) return res;
-        if (root->val > val)
-        {
-            int tmp = root->cnt - (root->left ? root->left->cnt : 0);
-            return greaterThan(root->left, val, res + tmp);
-        }
-        else if (root->val == val) return res + (root->right ? root->right->cnt : 0);
-        else return greaterThan(root->right, val, res);
-    }
-
-    void destoryTree(Node *root)
-    {
-        if (!root) return;
-        destoryTree(root->left);
-        destoryTree(root->right);
-        delete root;
-    }
-public:
-    Tree(): root(nullptr) {}
-    ~Tree() {destoryTree(root);}
-    void insert(long long val) {insert(root, val);}    
-    int greaterThan(long long val) {return greaterThan(root, val, 0);}
-private:
-    Node* root;
+    long long val;
+    int cnt;
+    Node *left, *right;
+    Node(long long v, int c): val(v), cnt(c), left(nullptr), right(nullptr) {}
 };
 
-class Solution 
+class BST
 {
 public:
-    int countRangeSum(vector<int>& nums, int lower, int upper) 
+    BST(): root(nullptr) {}
+    void insert(long long val) { insert(root, val); }
+    int smallerThan(long long val) { return smallerThan(root, val); }
+    ~BST() { destory(root); }
+private:
+    void insert(Node *&t, long long val)
     {
-        Tree tree;
-        tree.insert(0);
+        if (!t)
+        {
+            t = new Node (val, 1);
+            return;
+        }
+        t->cnt++;
+        if (t->val == val) return;
+        else if (t->val < val) insert(t->right, val);
+        else insert(t->left, val);
+    }
+
+    int smallerThan(Node *&t, long long val)
+    {
+        if (!t) return 0;
+        if (t->val == val) return t->left ? t->left->cnt : 0;
+        else if (t->val > val) return smallerThan(t->left, val);
+        else return t->cnt - (t->right ? t->right->cnt : 0) + smallerThan(t->right, val);
+    }
+    
+    void destory(Node *t)
+    {
+        if (!t) return;
+        if (t->left) destory(t->left);
+        if (t->right) destory(t->right);
+        delete t;
+    }
+private:
+    Node *root;
+};
+
+class Solution {
+public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
         long long sum = 0;
-        int res = 0;
-        for(int &i : nums)
+        int ret = 0;
+        BST bst;
+        bst.insert(0);
+        for (int &i : nums)
         {
             sum += i;
-            int lo = tree.greaterThan(sum - lower);
-            int hi = tree.greaterThan(sum - upper - 1);
-            res += hi - lo;
-            tree.insert(sum);
+            int low = bst.smallerThan(sum - lower + 1);
+            int high = bst.smallerThan(sum - upper);
+            ret += low - high;
+            bst.insert(sum);
         }
-        return res;
+        return ret;
     }
 };

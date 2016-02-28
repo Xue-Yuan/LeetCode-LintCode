@@ -11,37 +11,31 @@
         Given "cbacdcbc"
             Return "acdb"
 */
-
-class Solution
+            
+class Solution 
 {
 public:
-    string removeDuplicateLetters(string s)
+    string removeDuplicateLetters(string s) 
     {
-        if (s.size() < 2)
-            return s;
+        if (s.size() < 2) return s;
         
-        int last_idx[26];
-        vector<bool> occurence(26, false);
-        for (int i = 0; i < s.size(); ++i)
-            last_idx[s[i] - 'a'] = i;
+        vector<int> last_idx(26, -1);
+        int len = s.size();
+        for (int i=0; i<len; ++i)
+            last_idx[s[i]-'a'] = i;
         
-        string res = {s[0]};
-        occurence[s[0] - 'a'] = true;
-        
-        //res is always the smallest in lexicographical order.
-        //  So when a letter occurs before, no need to deal with
-        //  it again.
-        for (int i = 1; i < s.size(); ++i)
+        string res;
+        vector<bool> used(26, false);
+        for (int i=0; i<len; i++)
         {
-            if (occurence[s[i] - 'a'])
-                continue;
-            while (!res.empty() && s[i] < res.back() && last_idx[res.back() - 'a'] > i)   
+            if (used[s[i]-'a']) continue;
+            while (!res.empty() && s[i] < res.back() && last_idx[res.back()-'a'] > i)
             {
-                occurence[res.back() - 'a'] = false;
+                used[res.back()-'a'] = false;
                 res.pop_back();
             }
             res += s[i];
-            occurence[s[i] - 'a'] = true;
+            used[s[i]-'a'] = true;
         }
         return res;
     }
