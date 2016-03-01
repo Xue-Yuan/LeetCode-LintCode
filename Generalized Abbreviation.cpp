@@ -46,27 +46,27 @@ private:
     }
 };
 
-class Solution2 {
+class Solution2 
+{
 public:
-    vector<string> generateAbbreviations(string word) {
-        vector<string> ret;
-        generate(word, "", 0, 0, ret);
+    vector<string> generateAbbreviations(string word) 
+    {
+        dfs(word, "", 0, 0);
         return ret;
     }
 private:
-    void generate(string &word, string cur, int idx, int cnt, vector<string> &ret)
+    void dfs(string &word, string path, size_t idx, int cnt)
     {
-        
-        if (idx == (int)word.size())
+        if (idx == word.size())
         {
-            if (cnt > 0) cur += to_string(cnt);
-            ret.push_back(cur);
+            path += cnt ? to_string(cnt) : "";
+            ret.push_back(path);
             return;
         }
         
-        //do not abbreviate the character word[idx]
-        generate(word, cur+(cnt ? to_string(cnt) : "")+word[idx], idx+1, 0, ret);
-        //abbreviate it
-        generate(word, cur, idx+1, cnt+1, ret);
+        dfs(word, path, idx+1, cnt+1);
+        dfs(word, path+(cnt ? to_string(cnt) : "")+word[idx], idx+1, 0);
     }
+private:
+    vector<string> ret;
 };
