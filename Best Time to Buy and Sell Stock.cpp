@@ -13,23 +13,19 @@
      sell => able to sell
      end => end of transaction
  */
-class Solution
+class Solution 
 {
 public:
-    int maxProfit(vector<int>& prices)
+    int maxProfit(vector<int> &prices) 
     {
-        const int buy = 0, sell = 1, end = 2;
-        int cur = 0, next = 1;
-        vector<vector<int>> states(2, vector<int>(3, 0));
-        states[cur][sell] = INT_MIN;
+        if (prices.empty()) return 0;
         
-        for(int &p : prices)
+        int buy = prices[0], max_profit = 0;
+        for (int &p : prices)
         {
-            states[next][buy] = states[cur][buy];
-            states[next][sell] = max(states[cur][buy] - p, states[cur][sell]);
-            states[next][end] = max(states[cur][sell] + p, states[cur][end]);
-            swap(cur, next);
+            buy = min(buy, p);
+            max_profit = max(max_profit, p-buy);
         }
-        return states[cur][end];
+        return max_profit;
     }
 };
