@@ -25,24 +25,16 @@ private:
             ret.push_back(str);
             return;
         }
-        str[start] = str[end] = '1';
-        find(start+1, end-1, str, ret);
         
-        if (start == end || start != 0)
+        for (auto v : p)
         {
-            str[start] = str[end] = '0';
-            find(start+1, end-1, str, ret);
-        }
-
-        str[start] = str[end] = '8';
-        find(start+1, end-1, str, ret);
-
-        if (start != end)
-        {
-            str[start] = '6'; str[end] = '9';
-            find(start+1, end-1, str, ret);
-            str[start] = '9'; str[end] = '6';
+            if (start == 0 && v[0] == '0' && start != end) continue;
+            if (start == end && v[0] != v[1]) continue;
+            str[start] = v[0], str[end] = v[1];
             find(start+1, end-1, str, ret);
         }
     }
+private:
+    char p[5][2] = {{'1','1'},{'0','0'},{'6','9'},{'9','6'},{'8','8'}};
 };
+

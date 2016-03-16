@@ -16,27 +16,30 @@
 	Follow up:
 		Could you solve it in O(nk) runtime?
 */
-
-class Solution
+class Solution 
 {
 public:
-	int minCost(vector<vector<int>> &cost)
-	{
-		if (cost.empty() || cost[0].empty()) return 0;
+    int minCostII(vector<vector<int>>& costs) 
+    {
+        if (costs.empty() || costs[0].empty()) return 0;
+        
+        int n = (int)costs.size(), k = (int)costs[0].size();
+        
+        vector<vector<int>> opt(n, vector<int>(k, 0));
+        opt[0] = costs[0];
+            
+        for (int i=1; i<n; i++)
+            for (int j=0; j<k; j++)
+                for (int m=0; m<k; m++)
+                    if (j!=m)
+                    {
+                        if (opt[i][j] == 0) opt[i][j] = opt[i-1][m] + costs[i][j];
+                        else opt[i][j] = min(opt[i-1][m] + costs[i][j], opt[i][j]);
+                    }
 
-		vector<vector<int>> dp(cost.size(), vector<int>(cost.front().size()));
-		dp[0] = cost[0];
-
-		for (size_t i = 1; i < cost.size(); ++i)
-			for (size_t cur = 0; cur < cost[0].size(); ++cur)
-			{
-				dp[i][cur] = INT_MAX;
-				for (size_t pre = 0; pre < cost[0].size(); ++pre)
-				{
-					if (cur == pre) continue;
-					dp[i][cur] = min(dp[i][cur], dp[i-1][pre]+cost[i][cur]);
-				}
-			}
-		return *min_element(dp.back().begin(), dp.back().end());
-	}
+        return *min_element(opt.back().begin(), opt.back().end());
+    }
 };
+
+//Inorder to achieve O(nk), we can record the previous minimum two. And as a result
+//	the space complexity can be further optimized.
