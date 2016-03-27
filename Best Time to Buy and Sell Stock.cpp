@@ -6,13 +6,6 @@
         and sell one share of the stock), design an algorithm to find the maximum 
         profit.
 */
-        
-/*
- states:
-     buy  => able to buy
-     sell => able to sell
-     end => end of transaction
- */
 class Solution 
 {
 public:
