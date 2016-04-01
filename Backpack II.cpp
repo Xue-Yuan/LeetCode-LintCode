@@ -26,13 +26,11 @@ public:
         
         for (int i = 1; i <= Asz; ++i)
             for (int j = 1; j <= m; ++j)
-            {
                 //because each elememt can only be used once, so here
                 //  is dp[i-1][j-A[i-1]]. It's different from the
                 //  coin change maximun way problem
                 dp[i][j] = max(dp[i-1][j], 
                     (j >= A[i-1] ? dp[i-1][j-A[i-1]] + V[i-1] : 0));
-            }
         
         return dp[Asz][m];
     }
