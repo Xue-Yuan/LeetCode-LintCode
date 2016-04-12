@@ -31,6 +31,6 @@ public:
             if (lookup(s[i]) < lookup(s[i + 1])) res -= lookup(s[i]);
             else res += lookup(s[i]);
         }
-        return res += lookup(s[s.size() - 1]);
+        return res += lookup(s.back());
     }
 };
