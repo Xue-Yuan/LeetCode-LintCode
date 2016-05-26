@@ -59,7 +59,7 @@ public:
                 if(p[i - 1] == '*')
                     matched[cur][j] = matched[cur][j - 1] || matched[prev][j];
                 else
-                    matched[cur][j] =  matched[prev][j - 1] && (p[i - 1] == '?' || p[i - 1] == s[j - 1]);
+                    matched[cur][j] = matched[prev][j - 1] && (p[i - 1] == '?' || p[i - 1] == s[j - 1]);
             }
             swap(cur, prev);
         }

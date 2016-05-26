@@ -64,13 +64,61 @@ public:
         istringstream in(data);
         return deserialize(in);
     }
+};
 
-    void print(TreeNode *root)
+class Codec2 
+{
+public:
+    string serialize(TreeNode* root) 
     {
-    	if(!root) return;
-    	cout << root->val << ' ';
-    	print(root->left);
-    	print(root->right);
+        stack<TreeNode *> stk;
+        TreeNode *cur = root;
+        string ret;
+        while (cur || !stk.empty())
+        {
+            if (cur)
+            {
+                ret += to_string(cur->val) + " ";
+                stk.push(cur);
+                cur = cur->left;
+            }
+            else
+            {
+                ret += "# ";
+                if (!stk.empty())
+                {
+                    cur = stk.top()->right; 
+                    stk.pop();
+                }
+            }
+        }
+        return ret += "# ";
+    }
+
+    TreeNode* deserialize(string data) 
+    {
+        TreeNode *cur = nullptr, ph(0);
+        istringstream in(data);
+        string str;
+        stack<TreeNode *> stk;
+        stk.push(&ph);
+        while (in >> str)
+        {
+            if (cur)
+            {
+                if (str != "#") cur->left = new TreeNode(stoi(str));
+                stk.push(cur);
+                cur = cur->left;
+            }
+            else if (!stk.empty())
+            {
+                cur = stk.top(); 
+                stk.pop();
+                if (str != "#") cur->right = new TreeNode(stoi(str));
+                cur = cur->right;
+            }
+        }
+        return ph.right;
     }
 };
 
