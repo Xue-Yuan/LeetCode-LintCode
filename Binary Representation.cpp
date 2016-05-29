@@ -1,7 +1,7 @@
 /*
-    Given a (decimal - e.g. 3.72) number that is passed in as a string, 
-        return the binary representation that is passed in as a string. 
-        If the fractional part of the number can not be represented 
+    Given a (decimal - e.g. 3.72) number that is passed in as a string,
+        return the binary representation that is passed in as a string.
+        If the fractional part of the number can not be represented
         accurately in binary with at most 32 characters, return ERROR.
 */
 
