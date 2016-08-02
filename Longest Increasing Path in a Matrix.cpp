@@ -26,43 +26,7 @@
         The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
 */
 
-class Solution 
-{
-public:
-    int longestIncreasingPath(vector<vector<int>>& matrix) 
-    {
-        if (matrix.empty() || matrix[0].empty()) return 0;
-        vector<vector<int>> dp(matrix.size(), vector<int>(matrix[0].size(), -1));
-        
-        int res = 0;
-        for (int i = 0; i < matrix.size(); ++i)
-            for (int j = 0; j < matrix[0].size(); ++j)
-            {
-                dp[i][j] = dfs(matrix, i, j, dp, 0, nullptr);
-                res = max(res, dp[i][j]);
-            }
-        return res;
-    }
-    
-private:
-    int dfs(vector<vector<int>> &matrix, int r, int c, vector<vector<int>> &dp, int cnt, int *last)
-    {
-        if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size()) return cnt;
-        if (last && *last <= matrix[r][c]) return cnt;        
-        if (dp[r][c] > 0) return cnt + dp[r][c];
-        
-        ++cnt;
-        int res = 0;
-        res = max(res, dfs(matrix, r - 1, c, dp, cnt, &matrix[r][c]));
-        res = max(res, dfs(matrix, r + 1, c, dp, cnt, &matrix[r][c]));
-        res = max(res, dfs(matrix, r, c + 1, dp, cnt, &matrix[r][c]));
-        res = max(res, dfs(matrix, r, c - 1, dp, cnt, &matrix[r][c]));        
-        return res;
-    }
-};
-
-//Actually we can save the result of each step during the dfs process.
-class Solution2 {
+class Solution {
 public:
     int longestIncreasingPath(vector<vector<int>>& matrix) 
     {
