@@ -101,6 +101,7 @@ public:
             for (int j = 0; j < col; ++j)
                 if (grid[i][j] == '1')
                 {
+                    //Union with right and down
                     if (i < row-1 && grid[i+1][j] == '1')
                         myUF.UFUnion(i*col+j, (i+1)*col+j);
                     if (j < col-1 && grid[i][j+1] == '1')

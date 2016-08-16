@@ -35,7 +35,7 @@
  */
 
 //It would be better if we can record the end during the process we
-//  traverse the tree instead of find it again.
+//  traverse the tree instead of finding it again.
 class Solution 
 {
 public:

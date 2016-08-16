@@ -35,7 +35,7 @@
     We start from the end, definitely ending up with the start.
 */
 
-//Try bidirection BFS later.
+// I've implemented a bidirectional version in Python
 
 class Solution
 {

@@ -24,7 +24,7 @@ public:
         ListNode ph(0), *pre = &ph, *ps;
         pre->next = head;
         for (int i = 0; i < m - 1; ++i) pre = pre->next;
-        ps = pre->next;
+            ps = pre->next;
         for (int i = m; i < n; ++i)
         {
             ListNode *p = ps->next;

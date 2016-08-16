@@ -5,7 +5,7 @@
     For example, given the range [5, 7], you should return 4.
 */
 
-//The idea is to find the first different bit. The all following
+//The idea is to find the first different bit. Then all following
 //  bits should be 0.
 class Solution
 {
@@ -36,7 +36,7 @@ public:
     int rangeBitwiseAnd(int m, int n)
     {
         int i = 0;
-        for(; m != n; m >= 1, n >=1) ++i;
+        for(; m != n; m >>= 1, n >>=1) ++i;
         return m << i;
     }
 };
