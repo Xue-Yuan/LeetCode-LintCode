@@ -89,7 +89,8 @@ public:
             pq.pop();
             res[idx] = get<0>(tmp);
             max_factor[idx++] = get<2>(tmp);
-            while (max_factor[get<1>(tmp)] > get<2>(tmp)) get<1>(tmp)++;
+            while (max_factor[get<1>(tmp)] > get<2>(tmp)) 
+                get<1>(tmp)++;
             pq.push(make_tuple(res[get<1>(tmp)] * get<2>(tmp), get<1>(tmp) + 1, get<2>(tmp)));
         }
         return res.back();

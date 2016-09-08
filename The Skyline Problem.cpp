@@ -46,7 +46,7 @@ private:
 	    	auto right = getSkyline(A, mid + 1, end);
 	    	return merge(left, right);
 	    }
-	    return {{A[0][0], A[0][2]}, {A[0][1], 0}};
+	    return {{A[start][0], A[start][2]}, {A[start][1], 0}};
 	}
 public:
 	vector<pair<int, int>> getSkyline(vector<vector<int>>& A)
