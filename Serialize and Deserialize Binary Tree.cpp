@@ -85,11 +85,8 @@ public:
             else
             {
                 ret += "# ";
-                if (!stk.empty())
-                {
-                    cur = stk.top()->right; 
-                    stk.pop();
-                }
+                cur = stk.top()->right; 
+                stk.pop();
             }
         }
         return ret += "# ";

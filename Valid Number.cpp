@@ -55,7 +55,7 @@ public:
             else if (c == '+' || c] == '-') input = SIGN;
             else if (isdigit(c)) input = DIGIT;
             else if (c == '.') input = DOT;
-            else if (c == 'e' || s[idx] == 'E') input = EXPONENT;
+            else if (c == 'e' || c == 'E') input = EXPONENT;
             state = transTable[state][input];
             if (state == -1) return false;
         }
@@ -73,7 +73,7 @@ public:
         vector<vector<int>> states
         {// inv  dig dot sig spa
             {-1,  1,  2,  4,  0}, //0 initial
-            {-1,  1,  3, -1,  5}, //1 digits no dots, with or without signs in the beginning.
+            {-1,  1,  3, -1,  5}, //1 digit no dots, with or without signs in the beginning.
             {-1,  3, -1, -1, -1}, //2 just dot
             {-1,  3, -1, -1,  5}, //3 dot & digits
             {-1,  1,  2, -1, -1}, //4 just sign
