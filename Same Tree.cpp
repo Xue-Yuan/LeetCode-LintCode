@@ -15,15 +15,16 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-class Solution 
-{
+
+class Solution {
 public:
-    bool isSameTree(TreeNode *p, TreeNode *q)
-     {
-        if (!p && !q) return true;
-        if (p && !q || !p && q) return false;
-        if (p->val != q->val) return false;
-        
-        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        if (not (q or p)) {
+            return true;
+        }
+        if (not (p and q) or p->val != q->val) {
+            return false;
+        }
+        return isSameTree(p->left, q->left) and isSameTree(p->right, q->right);
     }
 };
