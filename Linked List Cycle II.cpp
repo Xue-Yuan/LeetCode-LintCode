@@ -35,25 +35,26 @@ public:
     }
 };
 
+
 class Solution2 {
 public:
     ListNode *detectCycle(ListNode *head) {
+        if (!head) {
+            return nullptr;
+        }
         ListNode *fast = head, *slow = head;
-        bool cycle = false;
-        while (!cycle && fast && fast->next)
-        {
+        while (fast->next && fast->next->next) {
             fast = fast->next->next;
             slow = slow->next;
-            cycle = fast == slow;
+            if (fast == slow) {
+                slow = head;
+                while (fast != slow) {
+                    fast = fast->next;
+                    slow = slow->next;
+                }
+                return slow;
+            }
         }
-        if (!cycle) return nullptr;
-        
-        slow = head;
-        while (slow != fast)
-        {
-            slow = slow->next;
-            fast = fast->next;
-        }
-        return fast;
+        return nullptr;
     }
 };
