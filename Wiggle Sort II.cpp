@@ -31,4 +31,33 @@ public:
     }
 };
 
+
+//Three-way-partition
+class Solution2 {
+public:
+    void wiggleSort(vector<int>& nums) {
+        int sz = (int)nums.size();
+        nth_element(nums.begin(), nums.begin()+sz/2, nums.end());
+        int mid = nums[sz/2];
+        int i = 0, j = 0, k = sz-1;
+        while (j <= k) {
+            if (nums[j] > mid) {
+                swap(nums[i++], nums[j++]);
+            } else if (nums[j] < mid) {
+                swap(nums[j], nums[k--]);
+            } else {
+                ++j;
+            }
+        }
+        vector<int> tmp(sz, 0);
+        for (int i = 0, sm = sz/2; i < sz; i += 2) {
+            tmp[i] = nums[sm++];
+        }
+        for (int i = 1, lg = 0; i < sz; i += 2) {
+            tmp[i] = nums[lg++];
+        }
+        nums = move(tmp);
+    }
+};
+
 //https://leetcode.com/discuss/77133/o-n-o-1-after-median-virtual-indexing
