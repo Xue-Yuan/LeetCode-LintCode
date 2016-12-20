@@ -20,64 +20,50 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-class Solution 
-{
+class Solution {
 public:
-    vector<int> preorderTraversal(TreeNode* root) 
-    {
+    vector<int> preorderTraversal(TreeNode* root) {
         stack<TreeNode *> stk;
-        TreeNode *cur = root;
-        vector<int> ret;
-        while (cur || !stk.empty())
-        {
-            if (cur)
-            {
-                ret.push_back(cur->val);
-                stk.push(cur);
-                cur = cur->left;
+        vector<int> ans;
+        while (!stk.empty() or root) {
+            while (root) {
+                stk.push(root);
+                ans.push_back(root->val);
+                root = root->left;
             }
-            else if (!stk.empty())
-            {
-                cur = stk.top()->right; 
-                stk.pop();
-            }
+            root = stk.top()->right;
+            stk.pop();
         }
-        return ret;
+        return ans;
     }
 };
 
-//morris
-class Solution2 
-{
+//morris traversal
+class Solution2 {
 public:
-    vector<int> preorderTraversal(TreeNode* cur) 
-    {
-        vector<int> ret;
-        while(cur)
-        {
-            if(!cur->left)
-            {
-                ret.push_back(cur->val);
-                cur = cur->right;       //we get back from here
-            }
-            else
-            {
-                TreeNode *prev = cur->left;
-                while(prev->right && prev->right != cur)
-                    prev = prev->right;
-                if(!prev->right)
-                {
-                    ret.push_back(cur->val);
-                    prev->right = cur;
-                    cur = cur->left;
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> ans;
+        while (root) {
+            if (!root->left) {
+                ans.push_back(root->val);
+                root = root->right;
+            } else {
+                auto tmp = root->left;
+                while (tmp->right and tmp->right != root) {
+                    tmp = tmp->right;
                 }
-                else    //now it's back to mid node, we can print it
-                {
-                    cur = cur->right;
-                    prev->right = nullptr;
+                if (!tmp->right) {
+                    // It's our first time being here.
+                    ans.push_back(root->val);
+                    tmp->right = root;
+                    root = root->left;
+                } else {
+                    // We are back from the bottom. Reset the changed pointer.
+                    root = root->right;
+                    tmp->right = nullptr;
                 }
             }
         }
-        return ret;
+        return ans;
     }
 };

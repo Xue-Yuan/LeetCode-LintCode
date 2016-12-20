@@ -61,3 +61,37 @@ public:
         return uf.getCount() == 1;
     }
 };
+
+
+class Solution2 {
+public:
+    bool validTree(int n, vector<pair<int, int>>& edges) {
+        graph.assign(n, vector<int>{});
+        for (auto &e : edges) {
+            graph[e.first].push_back(e.second);
+            graph[e.second].push_back(e.first);
+        }
+        unordered_set<int> visited;
+        if (!dfs(0, -1, visited)){
+            return false;
+        }
+        return visited.size() == n;
+    }
+private:
+    bool dfs(int cur, int pre, unordered_set<int> &visited) {
+        if (visited.find(cur) != visited.end()) {
+            return false;
+        }
+        visited.insert(cur);
+        for (auto nxt : graph[cur]) {
+            if (nxt != pre) {
+                if (!dfs(nxt, cur, visited)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+private:
+    vector<vector<int>> graph;
+};

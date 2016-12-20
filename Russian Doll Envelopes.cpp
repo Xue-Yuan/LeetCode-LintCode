@@ -29,3 +29,27 @@ public:
         return dp.size();
     }
 };
+
+
+class Solution2 {
+public:
+    int maxEnvelopes(vector<pair<int, int>>& envelopes) {
+        if (envelopes.empty()) {
+            return 0;
+        }
+        sort(envelopes.begin(), envelopes.end());
+        int sz = (int)envelopes.size(), total = 1;
+        vector<int> dp(sz, 1);
+        for (int i = 1; i < sz; ++i) {
+            auto &e2 = envelopes[i];
+            for (int j = 0; j < i; ++j) {
+                auto &e1 = envelopes[j];
+                if (e1.first < e2.first and e1.second < e2.second) {
+                    dp[i] = max(dp[i], dp[j] + 1);
+                }
+            }
+            total = max(total, dp[i]);
+        }
+        return total;
+    }
+};
